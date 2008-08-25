@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<node name="/org/freedesktop/xesam/searcher/main">
+<!--
+Compile with:
+dbus-binding-tool prefix=xesam_searcher mode=glib-server data/search-introspect.xml > xesam-g-dbus-searcher-stub-private.h
+-->
+  <interface name="org.freedesktop.xesam.Search">
+
+    <annotation name="org.freedesktop.DBus.GLib.CSymbol" value="xesam_g_dbus_searcher_stub"/>
+
+    <method name="NewSession">
+      <annotation name="org.freedesktop.DBus.GLib.Async" value="true"/>
+      <arg type="s" name="session_handle" direction="out" />
+    </method>
+
+    <method name="CloseSession">
+      <annotation name="org.freedesktop.DBus.GLib.Async" value="true"/>
+      <arg type="s" name="session_handle" direction="in" />
+    </method>
+    
+    <method name="SetProperty">
+      <annotation name="org.freedesktop.DBus.GLib.Async" value="true"/>
+      <arg type="s" name="session_handle" direction="in" />
+      <arg type="s" name="key" direction="in" />
+      <arg type="v" name="value" direction="in" />
+      <arg type="v" name="used_value" direction="out" />
+    </method>
+    
+    <method name="GetProperty">
+      <annotation name="org.freedesktop.DBus.GLib.Async" value="true"/>
+      <arg type="s" name="session_handle" direction="in" />
+      <arg type="s" name="key" direction="in" />
+      <arg type="v" name="value" direction="out" />
+    </method>
+    
+    <method name="NewSearch">
+      <annotation name="org.freedesktop.DBus.GLib.Async" value="true"/>
+      <arg type="s" name="session_handle" direction="in" />
+      <arg type="s" name="query_xml" direction="in" />
+      <arg type="s" name="search_handle" direction="out" />
+    </method>
+
+    <method name="StartSearch">
+      <annotation name="org.freedesktop.DBus.GLib.Async" value="true"/>
+      <arg type="s" name="search_handle" direction="in" />
+    </method>
+    
+    <method name="CloseSearch">
+      <annotation name="org.freedesktop.DBus.GLib.Async" value="true"/>
+      <arg type="s" name="search_handle" direction="in" />
+    </method>
+
+    <method name="GetHitCount">
+      <annotation name="org.freedesktop.DBus.GLib.Async" value="true"/>
+      <arg type="s" name="search_handle" direction="in" />
+      <arg type="u" name="hit_count" direction="out" />
+    </method>
+
+    <method name="GetHits">
+      <annotation name="org.freedesktop.DBus.GLib.Async" value="true"/>
+      <annotation name="com.trolltech.QtDBus.QtTypeName.Out0" value="QVariantList&lt;QVariantList>"/>
+      <arg type="s" name="search_handle" direction="in" />
+      <arg type="u" name="count" direction="in" />
+      <arg type="aav" name="results" direction="out" />
+    </method>
+    
+    <method name="GetHitData">
+      <annotation name="org.freedesktop.DBus.GLib.Async" value="true"/>
+      <annotation name="com.trolltech.QtDBus.QtTypeName.Out0" value="QVariantList&lt;QVariantList>"/>
+      <annotation name="com.trolltech.QtDBus.QtTypeName.In1" value="QList&lt;quint32>"/>
+      <arg type="s" name="search_handle" direction="in" />
+      <arg type="au" name="hit_ids" direction="in" />
+      <arg type="as" name="fields" direction="in" />
+      <arg type="aav" name="results" direction="out" />
+    </method>
+    
+    <method name="GetState">
+      <annotation name="org.freedesktop.DBus.GLib.Async" value="true"/>
+      <arg type="as" name="state_info" direction="out" />
+    </method>
+
+    <signal name="HitsAdded">
+      <arg type="s" name="search_handle" />
+      <arg type="u" name="count" />
+    </signal>
+    
+    <signal name="HitsRemoved">
+      <annotation name="com.trolltech.QtDBus.QtTypeName.In1" value="QList&lt;quint32>"/>
+      <arg type="s" name="search_handle" />
+      <arg type="au" name="hit_ids" />
+    </signal>
+    
+    <signal name="HitsModified">
+      <annotation name="com.trolltech.QtDBus.QtTypeName.In1" value="QList&lt;quint32>"/>
+      <arg type="s" name="search_handle" />
+      <arg type="au" name="hit_ids" />
+    </signal>
+    
+    <signal name="SearchDone">
+      <arg type="s" name="search_handle" />
+    </signal>
+    
+    <signal name="StateChanged">
+      <arg type="as" name="state_info" />
+    </signal>
+
+  </interface>
+</node>
