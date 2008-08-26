@@ -58,7 +58,7 @@ dbus-binding-tool prefix=xesam_searcher mode=glib-server data/search-introspect.
 
     <method name="GetHits">
       <annotation name="org.freedesktop.DBus.GLib.Async" value="true"/>
-      <annotation name="com.trolltech.QtDBus.QtTypeName.Out0" value="QVariantList&lt;QVariantList>"/>
+      <annotation name="com.trolltech.QtDBus.QtTypeName.Out0" value="QList&lt;QVariantList>"/>
       <arg type="s" name="search_handle" direction="in" />
       <arg type="u" name="count" direction="in" />
       <arg type="aav" name="results" direction="out" />
@@ -66,7 +66,7 @@ dbus-binding-tool prefix=xesam_searcher mode=glib-server data/search-introspect.
     
     <method name="GetHitData">
       <annotation name="org.freedesktop.DBus.GLib.Async" value="true"/>
-      <annotation name="com.trolltech.QtDBus.QtTypeName.Out0" value="QVariantList&lt;QVariantList>"/>
+      <annotation name="com.trolltech.QtDBus.QtTypeName.Out0" value="QList&lt;QVariantList>"/>
       <annotation name="com.trolltech.QtDBus.QtTypeName.In1" value="QList&lt;quint32>"/>
       <arg type="s" name="search_handle" direction="in" />
       <arg type="au" name="hit_ids" direction="in" />

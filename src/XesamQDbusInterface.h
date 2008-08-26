@@ -22,7 +22,7 @@
 #define XESAMQDBUSINTERFACE_H_
 
 #include "XesamQGlobals.h"
-#include "xesamqsearchinterface_p.h"
+#include "XesamQSearchInterface.h"
 
 namespace XesamQLib
 {
