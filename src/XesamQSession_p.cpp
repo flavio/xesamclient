@@ -118,6 +118,9 @@ XesamQSearch* XesamQSessionPrivate::newSearchFromText(const QString& searchText)
   XesamQSearch* search = 0;
   XesamQQuery* query = XesamQQuery::fromText(searchText);
   QString searchHandle = m_dbusInterface->NewSearch(m_sessionHanlde, query->getXml());
+
+  if (searchHandle.isEmpty())
+    return search;
   
   XesamQDbusSearcher* searcher = new XesamQDbusSearcher ( m_dbusInterface);
   searcher->setSearchHandle( searchHandle);

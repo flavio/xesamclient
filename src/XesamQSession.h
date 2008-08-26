@@ -84,7 +84,8 @@ namespace XesamQLib {
       //*TODO: useless?*/ void syncProperty(const QString property);
 
       /*! Creates a new Xesam search starting from a #XesamQQuery object.
-       *  \return a new #XesamQSearch instance
+       *  \return a new #XesamQSearch instance, a null pointer if the session
+       *  is not ready.
        *  \sa XesamQQuery
        */
       XesamQSearch* newSearch (XesamQQuery& query);
@@ -92,7 +93,9 @@ namespace XesamQLib {
       /*! Creates a new Xesam search starting from a string containing a
        *  Xesam user language query.
        *
-       *  \return a new #XesamQSearch instance
+       *  \return a new #XesamQSearch instance, a null pointer if the session
+       *  is not ready.
+       *  Return a null pointer if the session is not ready.
        */
       XesamQSearch* newSearchFromText (const QString& searchText);
 

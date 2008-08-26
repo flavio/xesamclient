@@ -55,8 +55,11 @@ XesamTester::~XesamTester()
 }
 
 void XesamTester::query(const QString& query) {
-  cout << "starting query" << endl;
   search = session->newSearchFromText( query);
+  if (search == 0)
+    return;
+
+  cout << "starting query" << endl;
   
   connect (search, SIGNAL (closed()), this, SLOT(slotClosed()));
   connect (search, SIGNAL (done()), this, SLOT(slotDone()));
