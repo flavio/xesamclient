@@ -1,0 +1,5 @@
+Makefile
+.project
+.cproject
+*.kdev*
+*.tag
