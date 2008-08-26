@@ -83,8 +83,18 @@ void XesamTester::slotDone() {
   cout << "XesamTester::done" << endl;
 
   int count = search->getHitCount();
-  cout << "search->getHitCount() " << count << endl;
+  cout << "search->getHitCount() " << endl;
   QList <QVariantList> hits = search->getHits(count);
+  
+  cout << "hits size: " << hits.size() << endl;
+  if (hits.size() != 0) {
+	  cout << "Printing hits:" << endl;
+	  foreach (QVariantList hit, hits) {
+		  foreach (QVariant variant, hit) {
+			  cout << variant.toString().toStdString() << endl;
+		  }
+	  }
+  }
 }
 
 void XesamTester::slotExtendedDataReady() {
