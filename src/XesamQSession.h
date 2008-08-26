@@ -95,7 +95,6 @@ namespace XesamQLib {
        *
        *  \return a new #XesamQSearch instance, a null pointer if the session
        *  is not ready.
-       *  Return a null pointer if the session is not ready.
        */
       XesamQSearch* newSearchFromText (const QString& searchText);
 
