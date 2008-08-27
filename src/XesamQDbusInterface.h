@@ -22,68 +22,97 @@
 #define XESAMQDBUSINTERFACE_H_
 
 #include "XesamQGlobals.h"
-#include "XesamQSearchInterface.h"
 
-namespace XesamQLib
-{
+#include <QtCore/QObject>
+#include <QtCore/QByteArray>
+#include <QtCore/QList>
+#include <QtCore/QMap>
+#include <QtCore/QMetaType>
+#include <QtCore/QString>
+#include <QtCore/QStringList>
+#include <QtCore/QVariant>
+#include <QtDBus/QtDBus>
+
+Q_DECLARE_METATYPE (QList < quint32>)
+Q_DECLARE_METATYPE (QList < QList < QVariant > >)
+
+namespace XesamQLib {
   class XesamQSearcher;
 
-  /**
-  *
-  **/
-  class XesamQDbusInterface : public XesamQSearchInterface
-  {
+  class XesamQDbusInterface : public QDBusAbstractInterface {
     Q_OBJECT
 
-    private:
-      bool m_closed;
-
     public:
-      XesamQDbusInterface ( const QString &service,
-                            const QString &path,
-                            const QDBusConnection &connection,
-                            QObject *parent = 0 );
-      virtual ~XesamQDbusInterface() {}
-  
-      XesamQSearcher* searcher();
+      XesamQDbusInterface(const QString &service, const QString &path,
+          const QDBusConnection &connection, QObject *parent = 0);
 
+      ~XesamQDbusInterface();
+
+      static inline const char *staticInterfaceName() {
+            return "org.freedesktop.xesam.Search";
+      }
+
+      XesamQSearcher* searcher();
+      
       /**
-      * @return true if the interface is ready to use, false otherwise
-      */
-      bool isReady () {
+       * @return true if the interface is ready to use, false otherwise
+       */
+      bool isReady() {
         return this->isValid();
       }
 
       /**
-      * Convenience method used to set sort properties
+       * Convenience method used to set sort properties
+       * @param session_handle ID of the current session
+       * @param propertyName name of the property to set
+       * @param order desired value
+       */
+      void SetPropertySortOrder(const QString& session_handle,
+                                const QString& propertyName,
+                                const SortOrder& order);
+      
+      /**
+      * Convenience method used to get sort properties
       * @param session_handle ID of the current session
       * @param propertyName name of the property to set
-      * @param order desired value
+      * @return the sort order of the required property
       */
-      inline void SetPropertySortOrder( const QString& session_handle,
-                                        const QString& propertyName,
-                                        const SortOrder& order) {
-        QString value;
-        if (order == Ascending)
-          value = "ascending";
-        else
-          value = "descending";
-  
-        this->SetProperty( session_handle, propertyName, QDBusVariant(value));
-      }
-  
-      inline SortOrder GetPropertySortOrder(const QString& session_handle, const QString& propertyName) {
-        QDBusVariant dbusVariant;
-        dbusVariant = this->GetProperty(session_handle, propertyName).value();
-        QString order = dbusVariant.variant().toString();
-        if (order.compare( "ascending") == 0)
-          return Ascending;
-  
-        return Descending;
-      }
-  }; 
+      SortOrder GetPropertySortOrder( const QString& session_handle,
+                                      const QString& propertyName);
+      
+    public Q_SLOTS:
+      QDBusReply<void> CloseSearch(const QString &search_handle);
+      QDBusReply<void> CloseSession(const QString &session_handle);
+      QDBusReply<uint> GetHitCount(const QString &search_handle);
+      QDBusReply<QList<QVariantList> > GetHitData(
+                    const QString &search_handle, const QList<quint32> &hit_ids,
+                    const QStringList &fields);
+      QDBusReply<QList<QVariantList> > GetHits(
+                    const QString &search_handle, uint count);
+      QDBusReply<QDBusVariant> GetProperty( const QString &session_handle,
+                                            const QString &key);
+      QDBusReply<QStringList> GetState();
+      QDBusReply<QString> NewSearch(const QString &session_handle,
+                                    const QString &query_xml);
+      QDBusReply<QString> NewSession();
+      QDBusReply<QDBusVariant> SetProperty( const QString &session_handle,
+                                            const QString &key,
+                                            const QDBusVariant &value);
+      QDBusReply<void> StartSearch(const QString &search_handle);
+
+    Q_SIGNALS:
+      void HitsAdded(const QString &search_handle, uint count);
+      void HitsModified(const QString &search_handle,
+                        const QList<quint32> &hit_ids);
+      void HitsRemoved( const QString &search_handle,
+                        const QList<quint32> &hit_ids);
+      void SearchDone(const QString &search_handle);
+      void StateChanged(const QStringList &state_info);
+      
+    private:
+      bool m_closed;
+
+  };
 }
-
-
 
 #endif /*XESAMQDBUSINTERFACE_H_*/
