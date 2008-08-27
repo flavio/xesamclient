@@ -25,6 +25,8 @@
 
 #include <iostream>
 
+#include <QDebug>
+
 using namespace XesamQLib;
 using namespace std;
 
@@ -87,7 +89,8 @@ void XesamTester::slotDone() {
     cout << "Printing hits:" << endl;
     foreach (QVariantList hit, hits) {
       foreach (QVariant variant, hit) {
-        cout << variant.toString().toStdString() << endl;
+        //cout << variant.toString().toStdString() << endl;
+        qDebug() << variant.toString();
       }
     }
   }
