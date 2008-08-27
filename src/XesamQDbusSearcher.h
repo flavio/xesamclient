@@ -24,14 +24,14 @@
 #include "XesamQSearcher.h" 
 
 namespace XesamQLib {
-  class XesamQDbusInterface;
+  class XesamQDBusInterface;
   
   class XesamQDbusSearcher : public XesamQSearcher 
   {
     Q_OBJECT
     
     public:
-    	XesamQDbusSearcher(XesamQDbusInterface*);
+    	XesamQDbusSearcher(XesamQDBusInterface*);
     	virtual ~XesamQDbusSearcher();
     	
     	void startSearch ();
@@ -47,7 +47,7 @@ namespace XesamQLib {
                                         const QStringList&);
       
     private:
-      XesamQDbusInterface* m_dbusInterface;
+      XesamQDBusInterface* m_dbusInterface;
       QString m_searchHandle;
   };
 }

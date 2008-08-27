@@ -23,7 +23,7 @@
 #include "XesamQDbusSearcher.h"
 #include "XesamQQuery.h"
 #include "XesamQSearch.h"
-#include "XesamQDbusInterface.h"
+#include "XesamQDBusInterface.h"
 
 using namespace XesamQLib;
 
@@ -32,7 +32,7 @@ XesamQSessionPrivate::XesamQSessionPrivate( const QString& bus_name,
                                             QObject * parent)
   :QObject(parent)
 {
-  m_dbusInterface = new XesamQDbusInterface (bus_name,
+  m_dbusInterface = new XesamQDBusInterface (bus_name,
                                              object_path,
                                              QDBusConnection::sessionBus(),
                                              this);

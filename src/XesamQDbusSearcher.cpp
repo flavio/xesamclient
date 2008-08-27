@@ -19,11 +19,11 @@
  */
 
 #include "XesamQDbusSearcher.h"
-#include "XesamQDbusInterface.h"
+#include "XesamQDBusInterface.h"
 
 using namespace XesamQLib;
 
-XesamQDbusSearcher::XesamQDbusSearcher(XesamQDbusInterface* interface)
+XesamQDbusSearcher::XesamQDbusSearcher(XesamQDBusInterface* interface)
   : m_dbusInterface (interface)
 {       
   // TODO: finish

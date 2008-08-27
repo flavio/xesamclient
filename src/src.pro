@@ -16,7 +16,7 @@ QT -= gui
 
 # Input
 PRIVATE_HEADERS = XesamQSession_p.h \
-    XesamQDbusInterface.h \
+    XesamQDBusInterface.h \
     XesamQDbusSearcher.h
 PUBLIC_HEADERS = XesamQGlobals.h \
     XesamQQuery.h \
@@ -26,7 +26,7 @@ PUBLIC_HEADERS = XesamQGlobals.h \
 HEADERS += $$PRIVATE_HEADERS \
     $$PUBLIC_HEADERS
 SOURCES += XesamQSession_p.cpp \
-    XesamQDbusInterface.cpp \
+    XesamQDBusInterface.cpp \
     XesamQDbusSearcher.cpp \
     XesamQQuery.cpp \
     XesamQSearch.cpp \

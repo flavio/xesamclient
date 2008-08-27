@@ -39,14 +39,14 @@ Q_DECLARE_METATYPE (QList < QList < QVariant > >)
 namespace XesamQLib {
   class XesamQSearcher;
 
-  class XesamQDbusInterface : public QDBusAbstractInterface {
+  class XesamQDBusInterface : public QDBusAbstractInterface {
     Q_OBJECT
 
     public:
-      XesamQDbusInterface(const QString &service, const QString &path,
+      XesamQDBusInterface(const QString &service, const QString &path,
           const QDBusConnection &connection, QObject *parent = 0);
 
-      ~XesamQDbusInterface();
+      ~XesamQDBusInterface();
 
       static inline const char *staticInterfaceName() {
             return "org.freedesktop.xesam.Search";

@@ -29,7 +29,7 @@
 
 namespace XesamQLib {
 
-  class XesamQDbusInterface;
+  class XesamQDBusInterface;
   class XesamQSearch;
   class XesamQQuery;
 
@@ -38,7 +38,7 @@ namespace XesamQLib {
 
     private:
       QString m_sessionHanlde;
-      XesamQDbusInterface* m_dbusInterface;
+      XesamQDBusInterface* m_dbusInterface;
       QMap<QString, XesamQSearch*> m_searches;
 
 

@@ -18,49 +18,49 @@
  * Boston, MA 02110-1301, USA.
  */
 
-#include "XesamQDbusInterface.h"
+#include "XesamQDBusInterface.h"
 
 #include "XesamQDbusSearcher.h"
 
 using namespace XesamQLib;
 
-XesamQDbusInterface::XesamQDbusInterface(const QString &service, const QString &path, const QDBusConnection &connection, QObject *parent)
+XesamQDBusInterface::XesamQDBusInterface(const QString &service, const QString &path, const QDBusConnection &connection, QObject *parent)
     : QDBusAbstractInterface(service, path, staticInterfaceName(), connection, parent)
 {
   m_closed = false;
 }
 
-XesamQDbusInterface::~XesamQDbusInterface()
+XesamQDBusInterface::~XesamQDBusInterface()
 {
 }
 
-XesamQSearcher* XesamQDbusInterface::searcher() {
+XesamQSearcher* XesamQDBusInterface::searcher() {
   return new XesamQDbusSearcher (this);
 }
 
 
-QDBusReply<void> XesamQDbusInterface::CloseSearch(const QString &search_handle) {
+QDBusReply<void> XesamQDBusInterface::CloseSearch(const QString &search_handle) {
   QList<QVariant> argumentList;
   argumentList << qVariantFromValue(search_handle);
   return callWithArgumentList(QDBus::Block, QLatin1String("CloseSearch"),
       argumentList);
 }
 
-QDBusReply<void> XesamQDbusInterface::CloseSession(const QString &session_handle) {
+QDBusReply<void> XesamQDBusInterface::CloseSession(const QString &session_handle) {
   QList<QVariant> argumentList;
   argumentList << qVariantFromValue(session_handle);
   return callWithArgumentList(QDBus::Block,
       QLatin1String("CloseSession"), argumentList);
 }
 
-QDBusReply<uint> XesamQDbusInterface::GetHitCount(const QString &search_handle) {
+QDBusReply<uint> XesamQDBusInterface::GetHitCount(const QString &search_handle) {
   QList<QVariant> argumentList;
   argumentList << qVariantFromValue(search_handle);
   return callWithArgumentList(QDBus::Block, QLatin1String("GetHitCount"),
       argumentList);
 }
 
-QDBusReply<QList<QVariantList> > XesamQDbusInterface::GetHitData(
+QDBusReply<QList<QVariantList> > XesamQDBusInterface::GetHitData(
                     const QString &search_handle, const QList<quint32> &hit_ids,
                     const QStringList &fields)
 {
@@ -71,7 +71,7 @@ QDBusReply<QList<QVariantList> > XesamQDbusInterface::GetHitData(
       argumentList);
 }
 
-QDBusReply<QList<QVariantList> > XesamQDbusInterface::GetHits(
+QDBusReply<QList<QVariantList> > XesamQDBusInterface::GetHits(
     const QString &search_handle, uint count) {
   QList<QVariant> argumentList;
   argumentList << qVariantFromValue(search_handle)
@@ -80,7 +80,7 @@ QDBusReply<QList<QVariantList> > XesamQDbusInterface::GetHits(
       argumentList);
 }
 
-QDBusReply<QDBusVariant> XesamQDbusInterface::GetProperty(
+QDBusReply<QDBusVariant> XesamQDBusInterface::GetProperty(
     const QString &session_handle,
     const QString &key)
 {
@@ -91,13 +91,13 @@ QDBusReply<QDBusVariant> XesamQDbusInterface::GetProperty(
       argumentList);
 }
 
-QDBusReply<QStringList> XesamQDbusInterface::GetState() {
+QDBusReply<QStringList> XesamQDBusInterface::GetState() {
   QList<QVariant> argumentList;
   return callWithArgumentList(QDBus::Block, QLatin1String("GetState"),
       argumentList);
 }
 
-QDBusReply<QString> XesamQDbusInterface::NewSearch(
+QDBusReply<QString> XesamQDBusInterface::NewSearch(
     const QString &session_handle,
     const QString &query_xml)
 {
@@ -108,13 +108,13 @@ QDBusReply<QString> XesamQDbusInterface::NewSearch(
       argumentList);
 }
 
-QDBusReply<QString> XesamQDbusInterface::NewSession() {
+QDBusReply<QString> XesamQDBusInterface::NewSession() {
   QList<QVariant> argumentList;
   return callWithArgumentList(QDBus::Block, QLatin1String("NewSession"),
       argumentList);
 }
 
-QDBusReply<QDBusVariant> XesamQDbusInterface::SetProperty(
+QDBusReply<QDBusVariant> XesamQDBusInterface::SetProperty(
                                 const QString &session_handle,
                                 const QString &key, const QDBusVariant &value)
 {
@@ -125,14 +125,14 @@ QDBusReply<QDBusVariant> XesamQDbusInterface::SetProperty(
       argumentList);
 }
 
-QDBusReply<void> XesamQDbusInterface::StartSearch(const QString &search_handle) {
+QDBusReply<void> XesamQDBusInterface::StartSearch(const QString &search_handle) {
   QList<QVariant> argumentList;
   argumentList << qVariantFromValue(search_handle);
   return callWithArgumentList(QDBus::Block, QLatin1String("StartSearch"),
       argumentList);
 }
 
-void XesamQDbusInterface::SetPropertySortOrder(const QString& session_handle,
+void XesamQDBusInterface::SetPropertySortOrder(const QString& session_handle,
                           const QString& propertyName, const SortOrder& order)
 {
   QString value;
@@ -144,7 +144,7 @@ void XesamQDbusInterface::SetPropertySortOrder(const QString& session_handle,
   this->SetProperty(session_handle, propertyName, QDBusVariant(value));
 }
 
-SortOrder XesamQDbusInterface::GetPropertySortOrder(
+SortOrder XesamQDBusInterface::GetPropertySortOrder(
                                             const QString& session_handle,
                                             const QString& propertyName)
 {
