@@ -20,11 +20,10 @@
 
 #include "XesamQSearch.h"
 
-#include "XesamQSearcher.h"
-
-#include <QObject>
+#include "XesamQDBusInterface.h"
 
 using namespace XesamQLib;
+
 namespace XesamQLib {
   
   class XesamQSearch::Private {
@@ -33,21 +32,20 @@ namespace XesamQLib {
       bool m_continueRead;
       quint32 m_numFound;
       quint32 m_numRead;
-      XesamQSearcher* m_searcher;
+      XesamQDBusInterface* m_searchInterface;
+      QString m_searchHanlde;
     
     public:
-      Private(XesamQSearcher* searcher)
-//        : QObject ()
+      Private(XesamQDBusInterface* searchInterface, const QString& searchHanlde)
+        : m_searchInterface ( searchInterface),
+          m_searchHanlde ( searchHanlde)
       {
         m_continueRead = true;
         m_numFound = 0;
         m_numRead = 0;
-        m_searcher = searcher;
       }
       
-      ~Private() {
-        delete m_searcher;
-      }
+      ~Private() { }
       
       bool continueRead() {
         return m_continueRead;
@@ -78,11 +76,11 @@ namespace XesamQLib {
   //      m_continueRead = false;
       
       void startSearch() {
-        m_searcher->startSearch();
+        m_searchInterface->StartSearch( m_searchHanlde);
       }
       
       void closeSearch() {
-        m_searcher->closeSearch();
+        m_searchInterface->CloseSearch( m_searchHanlde);
       }
   
       int getNumRead() {
@@ -91,23 +89,24 @@ namespace XesamQLib {
       }
       
       int getHitCount() {
-        return m_searcher->getHitCount();
+        return m_searchInterface->GetHitCount( m_searchHanlde);
       }
       
       QList<QVariantList> getHits(quint32 count) {
-        return m_searcher->getHits(count);
+        return m_searchInterface->GetHits(m_searchHanlde,  count);
       }
       
       QList < QVariantList> getHitData (const QList<quint32>& hit_ids,
                                               const QStringList& fields) {
-        return m_searcher->getHitData( hit_ids, fields);
+        return m_searchInterface->GetHitData( m_searchHanlde, hit_ids, fields);
       }
   };
 }
 
-XesamQSearch::XesamQSearch(XesamQSearcher* searcher, QObject * parent)
+XesamQSearch::XesamQSearch( XesamQDBusInterface* search_interface,
+                            const QString& searchHanlde, QObject * parent)
   : QObject(parent),
-    p (new XesamQSearch::Private (searcher))
+    p (new XesamQSearch::Private (search_interface, searchHanlde))
 {
 }
 

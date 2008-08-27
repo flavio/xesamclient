@@ -20,8 +20,6 @@
 
 #include "XesamQDBusInterface.h"
 
-#include "XesamQDbusSearcher.h"
-
 using namespace XesamQLib;
 
 XesamQDBusInterface::XesamQDBusInterface(const QString &service, const QString &path, const QDBusConnection &connection, QObject *parent)
@@ -33,11 +31,6 @@ XesamQDBusInterface::XesamQDBusInterface(const QString &service, const QString &
 XesamQDBusInterface::~XesamQDBusInterface()
 {
 }
-
-XesamQSearcher* XesamQDBusInterface::searcher() {
-  return new XesamQDbusSearcher (this);
-}
-
 
 QDBusReply<void> XesamQDBusInterface::CloseSearch(const QString &search_handle) {
   QList<QVariant> argumentList;

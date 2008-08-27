@@ -26,7 +26,7 @@
 
 namespace XesamQLib {
 
-  class XesamQSearcher;
+  class XesamQDBusInterface;
 
 
   /*!
@@ -45,7 +45,7 @@ namespace XesamQLib {
 //    Q_PROPERTY(int maxBatchSize READ maxBatchSize WRITE setMaxBatchSize)
 
     public:
-      XesamQSearch(XesamQSearcher*, QObject * parent = 0);
+      XesamQSearch(XesamQDBusInterface*, const QString&, QObject * parent = 0);
       ~XesamQSearch();
 
       /*! Instruct the server to start a given search.

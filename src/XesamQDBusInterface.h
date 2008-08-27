@@ -37,7 +37,6 @@ Q_DECLARE_METATYPE (QList < quint32>)
 Q_DECLARE_METATYPE (QList < QList < QVariant > >)
 
 namespace XesamQLib {
-  class XesamQSearcher;
 
   class XesamQDBusInterface : public QDBusAbstractInterface {
     Q_OBJECT
@@ -51,8 +50,6 @@ namespace XesamQLib {
       static inline const char *staticInterfaceName() {
             return "org.freedesktop.xesam.Search";
       }
-
-      XesamQSearcher* searcher();
       
       /**
        * @return true if the interface is ready to use, false otherwise

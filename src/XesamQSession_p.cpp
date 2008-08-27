@@ -20,7 +20,6 @@
 
 #include "XesamQSession_p.h"
 
-#include "XesamQDbusSearcher.h"
 #include "XesamQQuery.h"
 #include "XesamQSearch.h"
 #include "XesamQDBusInterface.h"
@@ -106,8 +105,7 @@ XesamQSearch* XesamQSessionPrivate::newSearch(XesamQQuery* query) {
   QString searchHandle = m_dbusInterface->NewSearch(m_sessionHanlde,
                                                     query->getXml());
   
-  XesamQDbusSearcher* searcher = new XesamQDbusSearcher(m_dbusInterface);
-  search = new XesamQSearch (searcher);
+  search = new XesamQSearch (m_dbusInterface, searchHandle);
   
   m_searches.insert( searchHandle, search);
   
@@ -122,9 +120,7 @@ XesamQSearch* XesamQSessionPrivate::newSearchFromText(const QString& searchText)
   if (searchHandle.isEmpty())
     return search;
   
-  XesamQDbusSearcher* searcher = new XesamQDbusSearcher ( m_dbusInterface);
-  searcher->setSearchHandle( searchHandle);
-  search = new XesamQSearch (searcher);
+  search = new XesamQSearch (m_dbusInterface, searchHandle);
   
   delete query;
   
