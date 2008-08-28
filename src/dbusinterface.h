@@ -83,7 +83,7 @@ namespace Xesam {
         QDBusReply<void> closeSearch(const QString &search_handle);
         QDBusReply<void> closeSession(const QString &session_handle);
         QDBusReply<uint> getHitCount(const QString &search_handle);
-        QDBusReply<QList<QVariantList> > getHitData(
+        QDBusReply<ListVariantList > getHitData(
                       const QString &search_handle, const QList<uint> &hit_ids,
                       const QStringList &fields);
         QDBusReply<ListVariantList > getHits(

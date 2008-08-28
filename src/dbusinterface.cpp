@@ -58,7 +58,7 @@ QDBusReply<uint> DBusInterface::getHitCount(const QString &search_handle) {
   return msg;
 }
 
-QDBusReply<QList<QVariantList> > DBusInterface::getHitData(
+QDBusReply<ListVariantList > DBusInterface::getHitData(
                     const QString &search_handle, const QList<uint> &hit_ids,
                     const QStringList &fields)
 {
