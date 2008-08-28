@@ -22,27 +22,27 @@
 
 using namespace XesamQLib;
 
-XesamQQuery::XesamQQuery()
+Query::Query()
 {
 }
 
-XesamQQuery::~XesamQQuery()
+Query::~Query()
 {
 }
 
-QString& XesamQQuery::getXml() {
+QString& Query::getXml() {
   return m_query;
 }
 
-XesamQQuery* XesamQQuery::fromXml (const QString& query) {
+Query* Query::fromXml (const QString& query) {
   //TODO: code it!
-  XesamQQuery* q = new XesamQQuery();
+  Query* q = new Query();
   q->m_query = query;
   
   return q;
 }
-XesamQQuery* XesamQQuery::fromText (const QString& text) {
-  XesamQQuery* q = new XesamQQuery();
+Query* Query::fromText (const QString& text) {
+  Query* q = new Query();
   
   QString xmlQuery;
   xmlQuery = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>";

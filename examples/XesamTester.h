@@ -25,8 +25,8 @@
 #include <QString>
 
 namespace XesamQLib {
-  class XesamQSession;
-  class XesamQSearch;
+  class Session;
+  class Search;
 }
 
 class XesamTester : public QObject
@@ -41,8 +41,8 @@ class XesamTester : public QObject
   	void vendorState();
   	
   private:
-    XesamQLib::XesamQSession* session;
-    XesamQLib::XesamQSearch* search;
+    XesamQLib::Session* session;
+    XesamQLib::Search* search;
     
   private slots:
     void slotClosed();

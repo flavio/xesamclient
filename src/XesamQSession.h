@@ -28,9 +28,9 @@
 
 namespace XesamQLib {
 
-  class XesamQSearch;
-  class XesamQQuery;
-  class XesamQSessionPrivate;
+  class Search;
+  class Query;
+  class SessionPrivate;
 
   /*!
    * \brief A client connection to a search engine
@@ -40,7 +40,7 @@ namespace XesamQLib {
    */
 
 
-  class XesamQSession : public QObject {
+  class Session : public QObject {
     Q_OBJECT
 
     Q_PROPERTY(QStringList hitfields READ hitFields WRITE setHitFields)
@@ -64,9 +64,9 @@ namespace XesamQLib {
     Q_PROPERTY(int vendorXesam READ vendorXesam)
 
     public:
-      XesamQSession (const QString& bus_name = XESAM_SERVER_DBUS_NAME,
+      Session (const QString& bus_name = XESAM_SERVER_DBUS_NAME,
                      const QString& object_path = XESAM_SERVER_DBUS_OBJECT);
-      ~XesamQSession();
+      ~Session();
 
       //     DBusGProxy*         xesam_g_session_get_proxy           (XesamGSession *session);
       //     gchar*              xesam_g_session_get_id              (XesamGSession *session);
@@ -83,20 +83,20 @@ namespace XesamQLib {
 
       //*TODO: useless?*/ void syncProperty(const QString property);
 
-      /*! Creates a new Xesam search starting from a #XesamQQuery object.
-       *  \return a new #XesamQSearch instance, a null pointer if the session
+      /*! Creates a new Xesam search starting from a #Query object.
+       *  \return a new #Search instance, a null pointer if the session
        *  is not ready.
-       *  \sa XesamQQuery
+       *  \sa Query
        */
-      XesamQSearch* newSearch (XesamQQuery& query);
+      Search* newSearch (Query& query);
 
       /*! Creates a new Xesam search starting from a string containing a
        *  Xesam user language query.
        *
-       *  \return a new #XesamQSearch instance, a null pointer if the session
+       *  \return a new #Search instance, a null pointer if the session
        *  is not ready.
        */
-      XesamQSearch* newSearchFromText (const QString& searchText);
+      Search* newSearchFromText (const QString& searchText);
 
       // properties methods
       QStringList hitFields();
@@ -136,11 +136,11 @@ namespace XesamQLib {
       //! emitted when the connection with the Xesam server is closed
       void closed();
 
-      //! emitted when XesamQSession is ready
+      //! emitted when Session is ready
       void ready();
 
     private:
-      XesamQSessionPrivate* const p;
+      SessionPrivate* const p;
     };
 }
 #endif

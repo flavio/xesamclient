@@ -41,14 +41,14 @@ Q_DECLARE_METATYPE (QList<QVariantList>)
 
 namespace XesamQLib {
 
-  class XesamQDBusInterface : public QDBusAbstractInterface {
+  class DBusInterface : public QDBusAbstractInterface {
     Q_OBJECT
 
     public:
-      XesamQDBusInterface(const QString &service, const QString &path,
+      DBusInterface(const QString &service, const QString &path,
           const QDBusConnection &connection, QObject *parent = 0);
 
-      ~XesamQDBusInterface();
+      ~DBusInterface();
 
       static inline const char *staticInterfaceName() {
             return "org.freedesktop.xesam.Search";
@@ -67,7 +67,7 @@ namespace XesamQLib {
        * @param propertyName name of the property to set
        * @param order desired value
        */
-      void SetPropertySortOrder(const QString& session_handle,
+      void setPropertySortOrder(const QString& session_handle,
                                 const QString& propertyName,
                                 const SortOrder& order);
       
@@ -77,37 +77,37 @@ namespace XesamQLib {
       * @param propertyName name of the property to set
       * @return the sort order of the required property
       */
-      SortOrder GetPropertySortOrder( const QString& session_handle,
+      SortOrder getPropertySortOrder( const QString& session_handle,
                                       const QString& propertyName);
       
     public Q_SLOTS:
-      QDBusReply<void> CloseSearch(const QString &search_handle);
-      QDBusReply<void> CloseSession(const QString &session_handle);
-      QDBusReply<uint> GetHitCount(const QString &search_handle);
-      QDBusReply<QList<QVariantList> > GetHitData(
+      QDBusReply<void> closeSearch(const QString &search_handle);
+      QDBusReply<void> closeSession(const QString &session_handle);
+      QDBusReply<uint> getHitCount(const QString &search_handle);
+      QDBusReply<QList<QVariantList> > getHitData(
                     const QString &search_handle, const QList<quint32> &hit_ids,
                     const QStringList &fields);
-      QDBusReply<Hit::List > GetHits(
+      QDBusReply<Hit::List > getHits(
                     const QString &search_handle, uint count);
-      QDBusReply<QDBusVariant> GetProperty( const QString &session_handle,
+      QDBusReply<QDBusVariant> getProperty( const QString &session_handle,
                                             const QString &key);
-      QDBusReply<QStringList> GetState();
-      QDBusReply<QString> NewSearch(const QString &session_handle,
+      QDBusReply<QStringList> getState();
+      QDBusReply<QString> newSearch(const QString &session_handle,
                                     const QString &query_xml);
-      QDBusReply<QString> NewSession();
-      QDBusReply<QDBusVariant> SetProperty( const QString &session_handle,
+      QDBusReply<QString> newSession();
+      QDBusReply<QDBusVariant> setProperty( const QString &session_handle,
                                             const QString &key,
                                             const QDBusVariant &value);
-      QDBusReply<void> StartSearch(const QString &search_handle);
+      QDBusReply<void> startSearch(const QString &search_handle);
 
     Q_SIGNALS:
-      void HitsAdded(const QString &search_handle, uint count);
-      void HitsModified(const QString &search_handle,
+      void hitsAdded(const QString &search_handle, uint count);
+      void hitsModified(const QString &search_handle,
                         const QList<quint32> &hit_ids);
-      void HitsRemoved( const QString &search_handle,
+      void hitsRemoved( const QString &search_handle,
                         const QList<quint32> &hit_ids);
-      void SearchDone(const QString &search_handle);
-      void StateChanged(const QStringList &state_info);
+      void searchDone(const QString &search_handle);
+      void stateChanged(const QStringList &state_info);
       
     private:
       bool m_closed;

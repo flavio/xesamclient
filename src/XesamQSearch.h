@@ -28,26 +28,26 @@
 
 namespace XesamQLib {
 
-  class XesamQDBusInterface;
+  class DBusInterface;
 
   /*!
    * \brief Client side representation of a search
    *
-   * XesamQSearch is a client side representation of a search.
-   * A search is created via a XesamQSession object's
-   * XesamQSession::newSearchFromText XesamQSession::newSearch methods.
+   * Search is a client side representation of a search.
+   * A search is created via a Session object's
+   * Session::newSearchFromText Session::newSearch methods.
    * All communications with the search engine is completely asynchronous.
    * When hits are available the "hits-ready" signal will be emitted.
    * A search will not emit any hits before the start method is invoked.
    */
-  class XesamQSearch : public QObject {
+  class Search : public QObject {
     Q_OBJECT
 
 //    Q_PROPERTY(int maxBatchSize READ maxBatchSize WRITE setMaxBatchSize)
 
     public:
-      XesamQSearch(XesamQDBusInterface*, const QString&, QObject * parent = 0);
-      ~XesamQSearch();
+      Search(DBusInterface*, const QString&, QObject * parent = 0);
+      ~Search();
 
       /*! Instruct the server to start a given search.
        * No hits will be returned before this method has been invoked.

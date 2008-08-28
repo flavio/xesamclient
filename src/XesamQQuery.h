@@ -37,14 +37,14 @@ namespace XesamQLib {
    *   accepted and is executing on the search engine.
    */
 
-  class XesamQQuery{
+  class Query{
     private:
-      XesamQQuery();
+      Query();
 
       QString m_query;
 
     public:
-      ~XesamQQuery();
+      ~Query();
 
       /*! \return a string containing the xml description of the query,
        * formulated according to 'Xesam Query Language' specifications
@@ -53,24 +53,24 @@ namespace XesamQLib {
       QString& getXml();
 
       /*!
-       * Creates a new instance of XesamQQuery
+       * Creates a new instance of Query
        *
        * \param xesamQlQuery string containing a query formulated with 'Xesam
        * Query Language'
-       * \return a new XesamQQuery instance
+       * \return a new Query instance
        *
        */
-      static XesamQQuery* fromXml (const QString& xesamQlQuery);
+      static Query* fromXml (const QString& xesamQlQuery);
 
       /*!
-       * Creates a new instance of XesamQQuery
+       * Creates a new instance of Query
        *
        * \param xesamUlQuery string containing a query formulated with 'Xesam
        * User Language'
-       * \return a new XesamQQuery instance
+       * \return a new Query instance
        *
        */
-      static XesamQQuery* fromText (const QString& xesamUlQuery);
+      static Query* fromText (const QString& xesamUlQuery);
   };
 }
 

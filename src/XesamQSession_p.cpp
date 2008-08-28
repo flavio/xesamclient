@@ -26,12 +26,12 @@
 
 using namespace XesamQLib;
 
-XesamQSessionPrivate::XesamQSessionPrivate( const QString& bus_name,
+SessionPrivate::SessionPrivate( const QString& bus_name,
                                             const QString& object_path,
                                             QObject * parent)
   :QObject(parent)
 {
-  m_dbusInterface = new XesamQDBusInterface (bus_name,
+  m_dbusInterface = new DBusInterface (bus_name,
                                              object_path,
                                              QDBusConnection::sessionBus(),
                                              this);
@@ -39,47 +39,47 @@ XesamQSessionPrivate::XesamQSessionPrivate( const QString& bus_name,
   //connect 
   
   if (m_dbusInterface->isReady()) {
-    m_sessionHanlde = m_dbusInterface->NewSession();
+    m_sessionHanlde = m_dbusInterface->newSession();
   
     connect ( m_dbusInterface, 
-          SIGNAL (HitsAdded(const QString&, quint32)),
+          SIGNAL (hitsAdded(const QString&, quint32)),
           this,
           SLOT (slotHitsAdded(const QString&, quint32)));
     
     connect ( m_dbusInterface,
-          SIGNAL (HitsModified(const QString&, const QList<quint32>&)),
+          SIGNAL (hitsModified(const QString&, const QList<quint32>&)),
           this,
           SLOT (slotHitsModified(const QString&, const QList<quint32>&)));
     
     connect ( m_dbusInterface, 
-          SIGNAL (HitsRemoved(const QString&, const QList<quint32>&)),
+          SIGNAL (hitsRemoved(const QString&, const QList<quint32>&)),
           this,
           SLOT (slotHitsRemoved(const QString&, const QList<quint32>&)));
     
     connect ( m_dbusInterface,
-          SIGNAL (SearchDone(const QString&)),
+          SIGNAL (searchDone(const QString&)),
           this,
           SLOT (slotSearchDone(const QString&)));
     
     connect ( m_dbusInterface,
-              SIGNAL (StateChanged(const QStringList &)),
+              SIGNAL (stateChanged(const QStringList &)),
               this,
               SLOT (slotStateChanged(const QStringList&)));
     
     connect ( m_dbusInterface,
-                  SIGNAL (StateChanged(const QStringList &)),
+                  SIGNAL (stateChanged(const QStringList &)),
                   this,
                   SIGNAL (stateChanged(const QStringList &)));
   }
 }
       
-XesamQSessionPrivate::~XesamQSessionPrivate() {
+SessionPrivate::~SessionPrivate() {
   delete m_dbusInterface;
   m_dbusInterface = NULL;
   
-  QMap<QString, XesamQSearch*>::iterator iter;
+  QMap<QString, Search*>::iterator iter;
   for (iter = m_searches.begin(); iter != m_searches.end(); iter++) {
-    XesamQSearch* search = iter.value();
+    Search* search = iter.value();
     if (search != NULL)
       delete search;
   }
@@ -87,40 +87,40 @@ XesamQSessionPrivate::~XesamQSessionPrivate() {
   m_searches.clear();
 }
       
-bool XesamQSessionPrivate::isReady() {
+bool SessionPrivate::isReady() {
   return (m_dbusInterface->isReady() && !m_sessionHanlde.isEmpty());
 }
   
-bool XesamQSessionPrivate::isClosed() {
+bool SessionPrivate::isClosed() {
   return m_sessionHanlde.isEmpty();
 }
 
-void XesamQSessionPrivate::close() {
-  m_dbusInterface->CloseSession(m_sessionHanlde);
+void SessionPrivate::close() {
+  m_dbusInterface->closeSession(m_sessionHanlde);
   m_sessionHanlde = "";
 }
 
-XesamQSearch* XesamQSessionPrivate::newSearch(XesamQQuery* query) {
-  XesamQSearch* search = 0;
-  QString searchHandle = m_dbusInterface->NewSearch(m_sessionHanlde,
+Search* SessionPrivate::newSearch(Query* query) {
+  Search* search = 0;
+  QString searchHandle = m_dbusInterface->newSearch(m_sessionHanlde,
                                                     query->getXml());
   
-  search = new XesamQSearch (m_dbusInterface, searchHandle);
+  search = new Search (m_dbusInterface, searchHandle);
   
   m_searches.insert( searchHandle, search);
   
   return search;
 }
 
-XesamQSearch* XesamQSessionPrivate::newSearchFromText(const QString& searchText) {
-  XesamQSearch* search = 0;
-  XesamQQuery* query = XesamQQuery::fromText(searchText);
-  QString searchHandle = m_dbusInterface->NewSearch(m_sessionHanlde, query->getXml());
+Search* SessionPrivate::newSearchFromText(const QString& searchText) {
+  Search* search = 0;
+  Query* query = Query::fromText(searchText);
+  QString searchHandle = m_dbusInterface->newSearch(m_sessionHanlde, query->getXml());
 
   if (searchHandle.isEmpty())
     return search;
   
-  search = new XesamQSearch (m_dbusInterface, searchHandle);
+  search = new Search (m_dbusInterface, searchHandle);
   
   delete query;
   
@@ -129,24 +129,24 @@ XesamQSearch* XesamQSessionPrivate::newSearchFromText(const QString& searchText)
   return search;
 }
 
-QDBusVariant XesamQSessionPrivate::getProperty(const QString& propName) {
-  return m_dbusInterface->GetProperty(m_sessionHanlde, propName).value();
+QDBusVariant SessionPrivate::getProperty(const QString& propName) {
+  return m_dbusInterface->getProperty(m_sessionHanlde, propName).value();
 }
 
-void XesamQSessionPrivate::setProperty (const QString& propName, const QDBusVariant& value) {
-  m_dbusInterface->SetProperty( m_sessionHanlde, propName, value);
+void SessionPrivate::setProperty (const QString& propName, const QDBusVariant& value) {
+  m_dbusInterface->setProperty( m_sessionHanlde, propName, value);
 }
 
-SortOrder XesamQSessionPrivate::sortOrder(const QString& propName) {
-  return m_dbusInterface->GetPropertySortOrder(m_sessionHanlde, propName);
+SortOrder SessionPrivate::sortOrder(const QString& propName) {
+  return m_dbusInterface->getPropertySortOrder(m_sessionHanlde, propName);
  }
 
- void XesamQSessionPrivate::setSortOrder(const QString& propName, const SortOrder& order) {
-   m_dbusInterface->SetPropertySortOrder(m_sessionHanlde, propName, order);
+ void SessionPrivate::setSortOrder(const QString& propName, const SortOrder& order) {
+   m_dbusInterface->setPropertySortOrder(m_sessionHanlde, propName, order);
  }
 
-bool XesamQSessionPrivate::vendorState(VendorState& state, int& done) {
-  QStringList ret = m_dbusInterface->GetState();
+bool SessionPrivate::vendorState(VendorState& state, int& done) {
+  QStringList ret = m_dbusInterface->getState();
   
   if (ret[0].compare ("Idle", Qt::CaseInsensitive) == 0)
     state = Idle;
@@ -172,54 +172,54 @@ bool XesamQSessionPrivate::vendorState(VendorState& state, int& done) {
   return true;
 }
 
-void XesamQSessionPrivate::slotHitsAdded( const QString &search_handle,
+void SessionPrivate::slotHitsAdded( const QString &search_handle,
                                           quint32 count) {
   qDebug() << "XesamQSessionPrivate::slotHitsAdded, count " << count;
-  QMap<QString, XesamQSearch*>::iterator match = m_searches.find(search_handle);
+  QMap<QString, Search*>::iterator match = m_searches.find(search_handle);
   if (match != m_searches.end()) {
-    XesamQSearch* search = match.value();
+    Search* search = match.value();
     search->slotHitsAdded( count);
   }
   else
       qDebug() << "unable to find search instance for handle" << search_handle;
 }
 
-void XesamQSessionPrivate::slotHitsModified(const QString &search_handle,
+void SessionPrivate::slotHitsModified(const QString &search_handle,
                                           const QList<quint32> &hit_ids) {
   qDebug() << "XesamQSessionPrivate::slotHitsModified";
-  QMap<QString, XesamQSearch*>::iterator match = m_searches.find(search_handle);
+  QMap<QString, Search*>::iterator match = m_searches.find(search_handle);
   if (match != m_searches.end()) {
-    XesamQSearch* search = match.value();
+    Search* search = match.value();
     search->slotHitsModified(hit_ids);
   }
   else
     qDebug() << "unable to find search instance for handle" << search_handle;
 }
 
-void XesamQSessionPrivate::slotHitsRemoved( const QString &search_handle,
+void SessionPrivate::slotHitsRemoved( const QString &search_handle,
                                           const QList<quint32> &hit_ids) {
   qDebug() << "XesamQSessionPrivate::slotHitsRemoved";
-  QMap<QString, XesamQSearch*>::iterator match = m_searches.find(search_handle);
+  QMap<QString, Search*>::iterator match = m_searches.find(search_handle);
   if (match != m_searches.end()) {
-    XesamQSearch* search = match.value();
+    Search* search = match.value();
     search->slotHitsRemoved( hit_ids);
   }
   else
     qDebug() << "unable to find search instance for handle" << search_handle;
 }
   
-void XesamQSessionPrivate::slotSearchDone(const QString &search_handle) {
+void SessionPrivate::slotSearchDone(const QString &search_handle) {
   qDebug() << "XesamQSessionPrivate::slotSearchDone";
-  QMap<QString, XesamQSearch*>::iterator match = m_searches.find(search_handle);
+  QMap<QString, Search*>::iterator match = m_searches.find(search_handle);
   if (match != m_searches.end()) {
-    XesamQSearch* search = match.value();
+    Search* search = match.value();
     search->slotSearchDone();
   }
   else
     qDebug() << "unable to find search instance for handle" << search_handle;
 }
 
-void XesamQSessionPrivate::slotStateChanged(const QStringList &state_info) {
+void SessionPrivate::slotStateChanged(const QStringList &state_info) {
   qDebug() << "XesamQSessionPrivate::slotStateChanged";
   emit stateChanged( state_info);
 }

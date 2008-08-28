@@ -34,7 +34,7 @@ using namespace std;
 
 XesamTester::XesamTester() :
   QObject() {
-  session = new XesamQSession ();
+  session = new Session ();
   search = NULL;
 
   if (session->isReady())

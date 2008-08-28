@@ -29,25 +29,25 @@
 
 namespace XesamQLib {
 
-  class XesamQDBusInterface;
-  class XesamQSearch;
-  class XesamQQuery;
+  class DBusInterface;
+  class Search;
+  class Query;
 
-  class XesamQSessionPrivate : public QObject {
+  class SessionPrivate : public QObject {
     Q_OBJECT
 
     private:
       QString m_sessionHanlde;
-      XesamQDBusInterface* m_dbusInterface;
-      QMap<QString, XesamQSearch*> m_searches;
+      DBusInterface* m_dbusInterface;
+      QMap<QString, Search*> m_searches;
 
 
     public:
-      XesamQSessionPrivate(const QString& bus_name,
+      SessionPrivate(const QString& bus_name,
                            const QString& object_path,
                            QObject * parent = 0);
 
-      ~XesamQSessionPrivate();
+      ~SessionPrivate();
 
       bool isReady();
 
@@ -55,9 +55,9 @@ namespace XesamQLib {
 
       void close();
 
-      XesamQSearch* newSearch(XesamQQuery* query);
+      Search* newSearch(Query* query);
 
-      XesamQSearch* newSearchFromText(const QString& searchText);
+      Search* newSearchFromText(const QString& searchText);
 
       QDBusVariant getProperty(const QString& propName);
 
