@@ -22,6 +22,7 @@
 #define SEARCH_H
 
 #include <QtCore/QObject>
+#include <QtCore/QStringList>
 #include <QtDBus/QDBusVariant>
 
 #include "globals.h"
@@ -47,7 +48,9 @@ namespace Xesam {
   //    Q_PROPERTY(int maxBatchSize READ maxBatchSize WRITE setMaxBatchSize)
   
       public:
-        Search(DBusInterface*, const QString&, QObject * parent = 0);
+        Search( DBusInterface*, const QString&,
+                const QStringList&,
+                QObject * parent = 0);
         ~Search();
   
         /*! Instruct the server to start a given search.
@@ -74,6 +77,7 @@ namespace Xesam {
         int  getNumFound();
         int  getNumRead();
         int  getHitCount();
+        QStringList getHitFields();
         ListVariantList getHits(uint count);
         QList <QVariantList> getHitData (const QList<uint>&,
                                           const QStringList&);
@@ -102,6 +106,8 @@ namespace Xesam {
       private:
         class Private;
         Private* const p;
+        
+        const QStringList m_hitFields; 
     };
   }
 }

@@ -94,9 +94,14 @@ class Search::Private {
     }
 };
 
-Search::Search(DBusInterface* searchInterface,
-    const QString& searchHandle, QObject * parent) :
-  QObject(parent), p(new Search::Private (searchInterface, searchHandle)) {
+Search::Search( DBusInterface* searchInterface,
+                const QString& searchHandle,
+                const QStringList& hitFields,
+                QObject * parent)
+  : QObject(parent),
+    p(new Search::Private (searchInterface, searchHandle)),
+    m_hitFields (hitFields)
+{
 }
 
 Search::~Search() {
@@ -124,6 +129,10 @@ int Search::getNumFound() {
 
 int Search::getNumRead() {
   return p->getNumRead();
+}
+
+QStringList Search::getHitFields() {
+  return m_hitFields;
 }
 
 void Search::slotParentSessionClosed() {

@@ -53,13 +53,15 @@ void Session::close() {
 //TODO; session_sync_property
 
 Search* Session::newSearch(Query& query) {
-  return p->newSearch (&query);
+  // have to pass hitFields to private class because otherwise this value cannot
+  // be retrieved from SessionPrivate
+  return p->newSearch (&query, this->hitFields());
 }
 
 Search* Session::newSearchFromText(const QString& searchText) {
   Query* query = Query::fromText(searchText);
 
-  Search* search = p->newSearch (query);
+  Search* search = this->newSearch (*query);
   delete query;
   
   return search;

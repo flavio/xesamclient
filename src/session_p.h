@@ -56,7 +56,7 @@ namespace Xesam {
   
         void close();
   
-        Search* newSearch(Query* query);
+        Search* newSearch(Query* query, const QStringList& hitFields);
   
         QDBusVariant getProperty(const QString& propName);
   
