@@ -43,8 +43,8 @@ class XesamTester : public QObject
   	void vendorState();
   	
   private:
-    Xesam::Client::Session* session;
-    Xesam::Client::Search* search;
+    Xesam::Client::Session* m_session;
+    Xesam::Client::Search* m_search;
     
   private slots:
     void slotClosed();

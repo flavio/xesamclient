@@ -34,47 +34,52 @@ using namespace std;
 
 XesamTester::XesamTester() :
   QObject() {
-  session = new Session ();
-  search = NULL;
+  m_session = new Session ();
+  m_search = NULL;
 
-  if (session->isReady())
+  if (m_session->isReady())
     cout << "Service available" << endl;
   else
     cout << "Service NOT available" << endl;
 }
 
 XesamTester::~XesamTester() {
-  if (session != NULL) {
-    session->close();
+  if (m_session != NULL) {
+    m_session->close();
 
-    if (session->isClosed())
+    if (m_session->isClosed())
       cout << "Session is closed" << endl;
     else
       cout << "Session is NOT closed" << endl;
 
-    delete session;
+    delete m_session;
   }
 }
 
 void XesamTester::query(const QString& query) {
-  search = session->newSearchFromText(query);
-  if (search == 0) {
+  QStringList hitFields;
+  hitFields << "xesam:url";
+  hitFields << "xesam:size";
+  m_session->setHitFields(hitFields);
+  
+  m_search = m_session->newSearchFromText(query);
+  if (m_search == 0) {
     cout << "Got a null search instance!" << endl;
     QCoreApplication::exit(1);
   }    
 
   cout << "starting query" << endl;
 
-  connect(search, SIGNAL (closed()), this, SLOT(slotClosed()));
-  connect(search, SIGNAL (done()), this, SLOT(slotDone()));
-  connect(search, SIGNAL (extendedDataReady()), this, SLOT(slotExtendedDataReady()));
-  connect(search, SIGNAL (hitsAdded()), this, SLOT(slotHitsAdded()));
-  connect(search, SIGNAL (hitsModified()), this, SLOT(slotHitsModified()));
-  connect(search, SIGNAL (hitsRemoved()), this, SLOT(slotHitsRemoved()));
-  connect(search, SIGNAL (ready()), this, SLOT(slotReady()));
-  connect(search, SIGNAL (started()), this, SLOT(slotStarted()));
+  connect(m_search, SIGNAL (closed()), this, SLOT(slotClosed()));
+  connect(m_search, SIGNAL (done()), this, SLOT(slotDone()));
+  connect(m_search, SIGNAL (extendedDataReady()), this, SLOT(slotExtendedDataReady()));
+  connect(m_search, SIGNAL (hitsAdded()), this, SLOT(slotHitsAdded()));
+  connect(m_search, SIGNAL (hitsModified()), this, SLOT(slotHitsModified()));
+  connect(m_search, SIGNAL (hitsRemoved()), this, SLOT(slotHitsRemoved()));
+  connect(m_search, SIGNAL (ready()), this, SLOT(slotReady()));
+  connect(m_search, SIGNAL (started()), this, SLOT(slotStarted()));
 
-  search->start();
+  m_search->start();
 }
 
 void XesamTester::slotClosed() {
@@ -84,18 +89,22 @@ void XesamTester::slotClosed() {
 void XesamTester::slotDone() {
   cout << "XesamTester::slotDone()" << endl;
 
-  int count = search->getHitCount();
+  int count = m_search->getHitCount();
   cout << "search->getHitCount() returned " << count << endl;
-  QList <Hit> hits = search->getHits(count);
+  QList <Hit> hits = m_search->getHits(count);
 
   cout << "hits size: " << hits.size() << endl;
+  qDebug() << "hit field = " << m_session->hitFields();
+
   if (hits.size() != 0) {
     cout << "Printing hits:" << endl;
     foreach (QVariantList hit, hits) {
+      QString msg = "[ ";
       foreach (QVariant variant, hit) {
-        //cout << variant.toString().toStdString() << endl;
-        qDebug() << variant.toString();
+        msg += "|" + variant.toString() + "| ";
       }
+      msg += "]";
+      qDebug() << msg;
     }
   }
   
@@ -129,7 +138,7 @@ void XesamTester::vendorState() {
   VendorState state;
   int done = 0;
 
-  if (session->vendorState(state, done)) {
+  if (m_session->vendorState(state, done)) {
     switch (state) {
       case Idle:
         cout << "Idle" << endl;
