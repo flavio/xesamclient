@@ -20,8 +20,6 @@
 
 #include "dbusinterface.h"
 
-//#include "dbusoperators.h"
-
 #include <QtDBus/QDBusArgument>
 
 using namespace Xesam::Client;

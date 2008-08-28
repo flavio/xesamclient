@@ -18,12 +18,12 @@
  * Boston, MA 02110-1301, USA.
  */
 
-#ifndef XESAMQSESSION_P_H_
-#define XESAMQSESSION_P_H_
+#ifndef SESSION_P_H
+#define SESSION_P_H
 
+#include <QtCore/QObject>
+#include <QtCore/QMap>
 #include <QtDBus/QDBusVariant>
-#include <QObject>
-#include <QMap>
 
 #include "globals.h"
 
@@ -89,4 +89,4 @@ namespace Xesam {
   }
 }
 
-#endif /*XESAMQSESSION_P_H_*/
+#endif /*SESSION_P_H*/

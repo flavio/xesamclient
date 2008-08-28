@@ -18,8 +18,8 @@
  * Boston, MA 02110-1301, USA.
  */
 
-#ifndef XESAMQDBUSINTERFACE_H_
-#define XESAMQDBUSINTERFACE_H_
+#ifndef DBUSINTERFACE_H
+#define DBUSINTERFACE_H
 
 #include "globals.h"
 
@@ -117,4 +117,4 @@ namespace Xesam {
   }
 }
 
-#endif /*XESAMQDBUSINTERFACE_H_*/
+#endif /*DBUSINTERFACE_H*/

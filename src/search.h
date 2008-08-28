@@ -18,10 +18,10 @@
  * Boston, MA 02110-1301, USA.
  */
 
-#ifndef XESAMQSEARCH_H
-#define XESAMQSEARCH_H
+#ifndef SEARCH_H
+#define SEARCH_H
 
-#include <QObject>
+#include <QtCore/QObject>
 #include <QtDBus/QDBusVariant>
 
 #include "globals.h"

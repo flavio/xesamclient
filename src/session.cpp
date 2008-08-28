@@ -18,11 +18,7 @@
  * Boston, MA 02110-1301, USA.
  */
 
-#include "session.h"
 #include "globals.h"
-
-#include <QString>
-
 #include "query.h"
 #include "search.h"
 #include "session.h"

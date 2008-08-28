@@ -18,8 +18,8 @@
  * Boston, MA 02110-1301, USA.
  */
 
-#ifndef XESAM_QGLOBALS
-#define XESAM_QGLOBALS
+#ifndef GLOBALS_H
+#define GLOBALS_H
 
 #include <QtCore/QList>
 #include <QtCore/QVariant>
@@ -41,4 +41,4 @@ namespace Xesam {
     };
   }
 }
-#endif /* XESAM_QGLOBALS */
+#endif /* GLOBALS_H */

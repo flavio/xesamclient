@@ -18,14 +18,14 @@
  * Boston, MA 02110-1301, USA.
  */
 
-#ifndef XESAMQQUERY_H
-#define XESAMQQUERY_H
+#ifndef QUERY_H
+#define QUERY_H
 
 /**
   @author Flavio Castelli <flavio.castelli@gmail.com>
 */
 
-#include <QString>
+#include <QtCore/QString>
 
 namespace Xesam {
   namespace Client {

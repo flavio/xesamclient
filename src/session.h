@@ -18,11 +18,11 @@
  * Boston, MA 02110-1301, USA.
  */
 
-#ifndef XESAMQSESSION_H
-#define XESAMQSESSION_H
+#ifndef SESSION_H
+#define SESSION_H
 
-#include <QObject>
-#include <QStringList>
+#include <QtCore/QObject>
+#include <QtCore/QStringList>
 
 #include "globals.h"
 
