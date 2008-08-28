@@ -19,99 +19,87 @@
  */
 
 #include "XesamQSearch.h"
-
 #include "XesamQDBusInterface.h"
 
 using namespace XesamQLib;
 
-namespace XesamQLib {
-  
-  class XesamQSearch::Private {
-      
-    private:
-      bool m_continueRead;
-      quint32 m_numFound;
-      quint32 m_numRead;
-      XesamQDBusInterface* m_searchInterface;
-      QString m_searchHanlde;
-    
-    public:
-      Private(XesamQDBusInterface* searchInterface, const QString& searchHanlde)
-        : m_searchInterface ( searchInterface),
-          m_searchHanlde ( searchHanlde)
-      {
-        m_continueRead = true;
-        m_numFound = 0;
-        m_numRead = 0;
-      }
-      
-      ~Private() { }
-      
-      bool continueRead() {
-        return m_continueRead;
-      }
-      
-      void setContinueRead(bool value) {
-          m_continueRead = value;
-      }
-      
-      int getNumFound() {
-        return m_numFound;
-      }
-      
-      void retrieveHits() {
-  //      int numRead = qMin (pendingHits(), m_maxBatchSize);
-  //      
-  //      if (numRead == 0) {
-  //        qDebug() << "Ingnoring retrieveHits request: no pending hits";
-  //        return;
-  //      } else if (!m_continueRead) {
-  //        qDebug() << "Ingnoring retrieveHits request: \"continue read \""
-  //                    "not set";
-  //        return;
-        }
-        
-        //m_searcher->
-        
-  //      m_continueRead = false;
-      
-      void startSearch() {
-        m_searchInterface->StartSearch( m_searchHanlde);
-      }
-      
-      void closeSearch() {
-        m_searchInterface->CloseSearch( m_searchHanlde);
-      }
-  
-      int getNumRead() {
-        //TODO: code it!
-        return 0;
-      }
-      
-      int getHitCount() {
-        return m_searchInterface->GetHitCount( m_searchHanlde);
-      }
-      
-      QList<QVariantList> getHits(quint32 count) {
-        return m_searchInterface->GetHits(m_searchHanlde,  count);
-      }
-      
-      QList < QVariantList> getHitData (const QList<quint32>& hit_ids,
-                                              const QStringList& fields) {
-        return m_searchInterface->GetHitData( m_searchHanlde, hit_ids, fields);
-      }
-  };
+class XesamQSearch::Private {
+
+  private:
+    bool m_continueRead;
+    quint32 m_numFound;
+    quint32 m_numRead;
+    XesamQDBusInterface* m_searchInterface;
+    QString m_searchHanlde;
+
+  public:
+    Private(XesamQDBusInterface* searchInterface, const QString& searchHanlde) :
+      m_searchInterface(searchInterface), m_searchHanlde(searchHanlde) {
+      m_continueRead = true;
+      m_numFound = 0;
+      m_numRead = 0;
+    }
+
+    ~Private() {
+    }
+
+    bool continueRead() {
+      return m_continueRead;
+    }
+
+    void setContinueRead(bool value) {
+      m_continueRead = value;
+    }
+
+    int getNumFound() {
+      return m_numFound;
+    }
+
+    void retrieveHits() {
+      //      int numRead = qMin (pendingHits(), m_maxBatchSize);
+      //      
+      //      if (numRead == 0) {
+      //        qDebug() << "Ingnoring retrieveHits request: no pending hits";
+      //        return;
+      //      } else if (!m_continueRead) {
+      //        qDebug() << "Ingnoring retrieveHits request: \"continue read \""
+      //                    "not set";
+      //        return;
+    }
+
+    void startSearch() {
+      m_searchInterface->StartSearch(m_searchHanlde);
+    }
+
+    void closeSearch() {
+      m_searchInterface->CloseSearch(m_searchHanlde);
+    }
+
+    int getNumRead() {
+      //TODO: code it!
+      return 0;
+    }
+
+    int getHitCount() {
+      return m_searchInterface->GetHitCount(m_searchHanlde);
+    }
+
+    QList<QVariantList> getHits(quint32 count) {
+      return m_searchInterface->GetHits(m_searchHanlde, count);
+    }
+
+    QList < QVariantList> getHitData(const QList<quint32>& hit_ids,
+        const QStringList& fields) {
+      return m_searchInterface->GetHitData(m_searchHanlde, hit_ids, fields);
+    }
+};
+
+XesamQSearch::XesamQSearch(XesamQDBusInterface* searchInterface,
+    const QString& searchHanlde, QObject * parent) :
+  QObject(parent), p(new XesamQSearch::Private (searchInterface, searchHanlde)) {
 }
 
-XesamQSearch::XesamQSearch( XesamQDBusInterface* search_interface,
-                            const QString& searchHanlde, QObject * parent)
-  : QObject(parent),
-    p (new XesamQSearch::Private (search_interface, searchHanlde))
-{
-}
-
-XesamQSearch::~XesamQSearch()
-{
+XesamQSearch::~XesamQSearch() {
   delete p;
 }
 
@@ -120,22 +108,14 @@ void XesamQSearch::continueSearch() {
   p->retrieveHits();
 }
 
-//XesamQSession* XesamQQuery::getSession() {
-//  return m_searcher->session();
-//}
-
-//const QString& XesamQSearch::id() {
-//  return p->m_handler;
-//}
-
 void XesamQSearch::start() {
   p->startSearch();
-  emit started();
+  emit   started();
 }
 
 void XesamQSearch::close() {
   p->closeSearch();
-  emit closed();
+  emit   closed();
 }
 
 int XesamQSearch::getNumFound() {
@@ -153,29 +133,27 @@ int XesamQSearch::getHitCount() {
   return p->getHitCount();
 }
 
-QList<QVariantList> XesamQSearch::getHits(quint32 count)
-{
+QList<QVariantList> XesamQSearch::getHits(quint32 count) {
   return p->getHits(count);
 }
 
-QList < QVariantList>
-XesamQSearch::getHitData (const QList<quint32> &hit_ids,
-                          const QStringList& fields) {
-  return p->getHitData (hit_ids, fields);
+QList < QVariantList> XesamQSearch::getHitData(const QList<quint32> &hit_ids,
+                                               const QStringList& fields) {
+  return p->getHitData(hit_ids, fields);
 }
 
-void XesamQSearch::slotHitsAdded( quint32 count) {
-  emit hitsAdded();
+void XesamQSearch::slotHitsAdded(quint32 count) {
+  emit   hitsAdded();
 }
 
-void XesamQSearch::slotHitsModified( const QList<quint32> &hit_ids) {
-  emit hitsModified();
+void XesamQSearch::slotHitsModified(const QList<quint32> &hit_ids) {
+  emit   hitsModified();
 }
 
-void XesamQSearch::slotHitsRemoved( const QList<quint32> &hit_ids) {
-  emit hitsRemoved();
+void XesamQSearch::slotHitsRemoved(const QList<quint32> &hit_ids) {
+  emit   hitsRemoved();
 }
 
 void XesamQSearch::slotSearchDone() {
-  emit done();
+  emit   done();
 }
