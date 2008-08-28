@@ -75,8 +75,11 @@ QDBusReply<Hit::List > DBusInterface::getHits(
   QList<QVariant> argumentList;
   argumentList << qVariantFromValue(search_handle)
       << qVariantFromValue(count);
-  return callWithArgumentList(QDBus::Block, QLatin1String("GetHits"),
+  QDBusReply<Hit::List > reply = callWithArgumentList(QDBus::Block, QLatin1String("GetHits"),
       argumentList);
+  Hit::List hit (reply);
+  qDebug() << "DBusInterface::getHits - " << hit;
+  return reply;
  }
 
 QDBusReply<QDBusVariant> DBusInterface::getProperty(
