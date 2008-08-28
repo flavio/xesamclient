@@ -62,9 +62,9 @@ namespace Xesam {
   
         void setProperty (const QString& propName, const QDBusVariant& value);
   
-        SortOrder sortOrder(const QString& propName);
+        Qt::SortOrder sortOrder(const QString& propName);
   
-         void setSortOrder(const QString& propName, const SortOrder& order);
+        void setSortOrder(const QString& propName, const Qt::SortOrder& order);
   
         bool vendorState(VendorState& state, int& done);
   

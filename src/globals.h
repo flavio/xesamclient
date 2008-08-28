@@ -26,12 +26,10 @@
 
 namespace Xesam {
   namespace Client {
-    //Q_ENUMS(SortOrder)
+    
     #define XESAM_SERVER_DBUS_NAME "org.freedesktop.xesam.searcher"
     #define XESAM_SERVER_DBUS_INTERFACE "org.freedesktop.xesam.Search"
     #define XESAM_SERVER_DBUS_OBJECT "/org/freedesktop/xesam/searcher/main"
-  
-    enum SortOrder { Ascending, Descending};
   
     enum VendorState { Idle, Update, FullIndex};
     

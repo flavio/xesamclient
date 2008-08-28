@@ -123,11 +123,12 @@ void SessionPrivate::setProperty (const QString& propName, const QDBusVariant& v
   m_dbusInterface->setProperty( m_sessionHandle, propName, value);
 }
 
-SortOrder SessionPrivate::sortOrder(const QString& propName) {
+Qt::SortOrder SessionPrivate::sortOrder(const QString& propName) {
   return m_dbusInterface->getPropertySortOrder(m_sessionHandle, propName);
  }
 
- void SessionPrivate::setSortOrder(const QString& propName, const SortOrder& order) {
+ void SessionPrivate::setSortOrder(const QString& propName,
+                                   const Qt::SortOrder& order) {
    m_dbusInterface->setPropertySortOrder(m_sessionHandle, propName, order);
  }
 

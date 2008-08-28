@@ -68,7 +68,7 @@ namespace Xesam {
          */
         void setPropertySortOrder(const QString& session_handle,
                                   const QString& propertyName,
-                                  const SortOrder& order);
+                                  const Qt::SortOrder& order);
         
         /**
         * Convenience method used to get sort properties
@@ -76,7 +76,7 @@ namespace Xesam {
         * @param propertyName name of the property to set
         * @return the sort order of the required property
         */
-        SortOrder getPropertySortOrder( const QString& session_handle,
+        Qt::SortOrder getPropertySortOrder( const QString& session_handle,
                                         const QString& propertyName);
         
       public Q_SLOTS:

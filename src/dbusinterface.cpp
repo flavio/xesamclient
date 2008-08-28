@@ -134,10 +134,10 @@ QDBusReply<void> DBusInterface::startSearch(const QString &search_handle) {
 }
 
 void DBusInterface::setPropertySortOrder(const QString& session_handle,
-                          const QString& propertyName, const SortOrder& order)
+                        const QString& propertyName, const Qt::SortOrder& order)
 {
   QString value;
-  if (order == Ascending)
+  if (order == Qt::AscendingOrder)
     value = "ascending";
   else
     value = "descending";
@@ -145,7 +145,7 @@ void DBusInterface::setPropertySortOrder(const QString& session_handle,
   this->setProperty(session_handle, propertyName, QDBusVariant(value));
 }
 
-SortOrder DBusInterface::getPropertySortOrder(
+Qt::SortOrder DBusInterface::getPropertySortOrder(
                                             const QString& session_handle,
                                             const QString& propertyName)
 {
@@ -153,7 +153,7 @@ SortOrder DBusInterface::getPropertySortOrder(
   dbusVariant = this->getProperty(session_handle, propertyName).value();
   QString order = dbusVariant.variant().toString();
   if (order.compare("ascending") == 0)
-    return Ascending;
+    return Qt::AscendingOrder;
 
-  return Descending;
+  return Qt::DescendingOrder;
 }

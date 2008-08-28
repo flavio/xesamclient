@@ -26,6 +26,8 @@
 
 #include "globals.h"
 
+using namespace Qt;
+
 namespace Xesam {
   namespace Client {
 
