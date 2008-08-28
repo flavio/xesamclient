@@ -84,7 +84,7 @@ void XesamTester::slotDone() {
 
   int count = search->getHitCount();
   cout << "search->getHitCount() returned " << count << endl;
-  QList <QVariantList> hits = search->getHits(count);
+  QList <XesamQLib::Hit> hits = search->getHits(count);
 
   cout << "hits size: " << hits.size() << endl;
   if (hits.size() != 0) {
