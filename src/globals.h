@@ -35,10 +35,8 @@ namespace Xesam {
   
     enum VendorState { Idle, Update, FullIndex};
     
-    class Hit : public QVariantList {
-      public:
-      typedef QList<Hit> List;
-    };
+    typedef QList < QVariantList > ListVariantList; 
+   
   }
 }
 #endif /* GLOBALS_H */

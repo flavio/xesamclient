@@ -74,7 +74,7 @@ namespace Xesam {
         int  getNumFound();
         int  getNumRead();
         int  getHitCount();
-        Hit::List getHits(uint count);
+        ListVariantList getHits(uint count);
         QList <QVariantList> getHitData (const QList<uint>&,
                                           const QStringList&);
   

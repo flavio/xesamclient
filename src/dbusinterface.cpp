@@ -28,8 +28,7 @@ DBusInterface::DBusInterface(const QString &service, const QString &path, const 
     : QDBusAbstractInterface(service, path, staticInterfaceName(), connection, parent)
 {
   m_closed = false;
-  qDBusRegisterMetaType<Xesam::Client::Hit>();
-  qDBusRegisterMetaType<Xesam::Client::Hit::List>();
+  qDBusRegisterMetaType<ListVariantList>();
 }
 
 DBusInterface::~DBusInterface()
@@ -70,14 +69,14 @@ QDBusReply<QList<QVariantList> > DBusInterface::getHitData(
       argumentList);
 }
 
-QDBusReply<Hit::List > DBusInterface::getHits(
+QDBusReply<ListVariantList > DBusInterface::getHits(
     const QString &search_handle, uint count) {
   QList<QVariant> argumentList;
   argumentList << qVariantFromValue(search_handle)
       << qVariantFromValue(count);
-  QDBusReply<Hit::List > reply = callWithArgumentList(QDBus::Block, QLatin1String("GetHits"),
+  QDBusReply<ListVariantList> reply = callWithArgumentList(QDBus::Block, QLatin1String("GetHits"),
       argumentList);
-  Hit::List hit (reply);
+  ListVariantList hit (reply);
   qDebug() << "DBusInterface::getHits - " << hit;
   return reply;
  }

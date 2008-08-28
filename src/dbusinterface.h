@@ -35,8 +35,6 @@
 
 
 Q_DECLARE_METATYPE (QList < uint>)
-Q_DECLARE_METATYPE (Xesam::Client::Hit)
-Q_DECLARE_METATYPE (Xesam::Client::Hit::List)
 Q_DECLARE_METATYPE (QList<QVariantList>)
 
 namespace Xesam {
@@ -88,7 +86,7 @@ namespace Xesam {
         QDBusReply<QList<QVariantList> > getHitData(
                       const QString &search_handle, const QList<uint> &hit_ids,
                       const QStringList &fields);
-        QDBusReply<Hit::List > getHits(
+        QDBusReply<ListVariantList > getHits(
                       const QString &search_handle, uint count);
         QDBusReply<QDBusVariant> getProperty( const QString &session_handle,
                                               const QString &key);

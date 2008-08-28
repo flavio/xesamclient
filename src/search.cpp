@@ -84,7 +84,7 @@ class Search::Private {
       return m_searchInterface->getHitCount(m_searchHandle);
     }
 
-    Hit::List getHits(uint count) {
+    ListVariantList getHits(uint count) {
       return m_searchInterface->getHits(m_searchHandle, count);
     }
 
@@ -133,7 +133,7 @@ int Search::getHitCount() {
   return p->getHitCount();
 }
 
-Hit::List Search::getHits(uint count) {
+ListVariantList Search::getHits(uint count) {
   return p->getHits(count);
 }
 
