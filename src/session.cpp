@@ -57,7 +57,12 @@ Search* Session::newSearch(Query& query) {
 }
 
 Search* Session::newSearchFromText(const QString& searchText) {
-  return p->newSearchFromText (searchText);
+  Query* query = Query::fromText(searchText);
+
+  Search* search = p->newSearch (query);
+  delete query;
+  
+  return search;
 }
 
 // properties methods

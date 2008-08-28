@@ -58,8 +58,6 @@ namespace Xesam {
   
         Search* newSearch(Query* query);
   
-        Search* newSearchFromText(const QString& searchText);
-  
         QDBusVariant getProperty(const QString& propName);
   
         void setProperty (const QString& propName, const QDBusVariant& value);

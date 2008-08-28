@@ -104,25 +104,11 @@ Search* SessionPrivate::newSearch(Query* query) {
   Search* search = 0;
   QString searchHandle = m_dbusInterface->newSearch(m_sessionHandle,
                                                     query->getXml());
-  
-  search = new Search (m_dbusInterface, searchHandle);
-  
-  m_searches.insert( searchHandle, search);
-  
-  return search;
-}
-
-Search* SessionPrivate::newSearchFromText(const QString& searchText) {
-  Search* search = 0;
-  Query* query = Query::fromText(searchText);
-  QString searchHandle = m_dbusInterface->newSearch(m_sessionHandle, query->getXml());
 
   if (searchHandle.isEmpty())
     return search;
   
   search = new Search (m_dbusInterface, searchHandle);
-  
-  delete query;
   
   m_searches.insert( searchHandle, search);
   
