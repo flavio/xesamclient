@@ -25,6 +25,8 @@
 
 #include <iostream>
 
+#include <QCoreApplication>
+
 #include <QDebug>
 
 using namespace XesamQLib;
@@ -94,6 +96,8 @@ void XesamTester::slotDone() {
       }
     }
   }
+  
+  QCoreApplication::exit(0);
 }
 
 void XesamTester::slotExtendedDataReady() {
