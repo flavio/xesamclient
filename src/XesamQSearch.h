@@ -22,12 +22,11 @@
 #define XESAMQSEARCH_H
 
 #include <QObject>
-#include <QVariant>
+#include <QtDBus/QDBusVariant>
 
 namespace XesamQLib {
 
   class XesamQDBusInterface;
-
 
   /*!
    * \brief Client side representation of a search
@@ -77,8 +76,7 @@ namespace XesamQLib {
                                         const QStringList&);
 
       //xesam_g_search_get_extended_data ()
-      //XesamQSession* getSession();
-//      const QString& id();
+
     public Q_SLOTS:
       void slotHitsAdded( quint32 count);
       void slotHitsModified( const QList<quint32> &hit_ids);
