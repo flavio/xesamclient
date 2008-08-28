@@ -69,9 +69,6 @@ namespace Xesam {
                        const QString& object_path = XESAM_SERVER_DBUS_OBJECT);
         ~Session();
   
-        //     DBusGProxy*         xesam_g_session_get_proxy           (XesamGSession *session);
-        //     gchar*              xesam_g_session_get_id              (XesamGSession *session);
-  
         //! \return true if the session is ready, false otherwise
         bool isReady();
   
