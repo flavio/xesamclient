@@ -74,16 +74,16 @@ namespace Xesam {
         int  getNumFound();
         int  getNumRead();
         int  getHitCount();
-        Hit::List getHits(quint32 count);
-        QList <QVariantList> getHitData (const QList<quint32>&,
+        Hit::List getHits(uint count);
+        QList <QVariantList> getHitData (const QList<uint>&,
                                           const QStringList&);
   
         //xesam_g_search_get_extended_data ()
   
       public Q_SLOTS:
-        void slotHitsAdded( quint32 count);
-        void slotHitsModified( const QList<quint32> &hit_ids);
-        void slotHitsRemoved( const QList<quint32> &hit_ids);
+        void slotHitsAdded( uint count);
+        void slotHitsModified( const QList<uint> &hit_ids);
+        void slotHitsRemoved( const QList<uint> &hit_ids);
         void slotSearchDone();
   
       private Q_SLOTS:

@@ -38,7 +38,7 @@ namespace Xesam {
       Q_OBJECT
   
       private:
-        QString m_sessionHanlde;
+        QString m_sessionHandle;
         DBusInterface* m_dbusInterface;
         QMap<QString, Search*> m_searches;
   
@@ -74,13 +74,13 @@ namespace Xesam {
         void stateChanged (const QStringList &state_info);
   
       private Q_SLOTS:
-        void slotHitsAdded(const QString &search_handle, quint32 count);
+        void slotHitsAdded(const QString &search_handle, uint count);
   
         void slotHitsModified(const QString &search_handle,
-                          const QList<quint32> &hit_ids);
+                          const QList<uint> &hit_ids);
   
         void slotHitsRemoved( const QString &search_handle,
-                          const QList<quint32> &hit_ids);
+                          const QList<uint> &hit_ids);
   
         void slotSearchDone(const QString &search_handle);
   

@@ -34,7 +34,7 @@
 #include <QtDBus/QtDBus>
 
 
-Q_DECLARE_METATYPE (QList < quint32>)
+Q_DECLARE_METATYPE (QList < uint>)
 Q_DECLARE_METATYPE (Xesam::Client::Hit)
 Q_DECLARE_METATYPE (Xesam::Client::Hit::List)
 Q_DECLARE_METATYPE (QList<QVariantList>)
@@ -86,7 +86,7 @@ namespace Xesam {
         QDBusReply<void> closeSession(const QString &session_handle);
         QDBusReply<uint> getHitCount(const QString &search_handle);
         QDBusReply<QList<QVariantList> > getHitData(
-                      const QString &search_handle, const QList<quint32> &hit_ids,
+                      const QString &search_handle, const QList<uint> &hit_ids,
                       const QStringList &fields);
         QDBusReply<Hit::List > getHits(
                       const QString &search_handle, uint count);
@@ -102,13 +102,13 @@ namespace Xesam {
         QDBusReply<void> startSearch(const QString &search_handle);
   
       Q_SIGNALS:
-        void hitsAdded(const QString &search_handle, uint count);
-        void hitsModified(const QString &search_handle,
-                          const QList<quint32> &hit_ids);
-        void hitsRemoved( const QString &search_handle,
-                          const QList<quint32> &hit_ids);
-        void searchDone(const QString &search_handle);
-        void stateChanged(const QStringList &state_info);
+        void HitsAdded(const QString &search_handle, uint count);
+        void HitsModified(const QString &search_handle,
+                          const QList<uint> &hit_ids);
+        void HitsRemoved( const QString &search_handle,
+                          const QList<uint> &hit_ids);
+        void SearchDone(const QString &search_handle);
+        void StateChanged(const QStringList &state_info);
         
       private:
         bool m_closed;

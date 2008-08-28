@@ -39,37 +39,37 @@ SessionPrivate::SessionPrivate( const QString& bus_name,
   //connect 
   
   if (m_dbusInterface->isReady()) {
-    m_sessionHanlde = m_dbusInterface->newSession();
+    m_sessionHandle = m_dbusInterface->newSession();
   
     connect ( m_dbusInterface, 
-          SIGNAL (hitsAdded(const QString&, quint32)),
+          SIGNAL (HitsAdded(const QString&, uint)),
           this,
-          SLOT (slotHitsAdded(const QString&, quint32)));
+          SLOT (slotHitsAdded(const QString&, uint)));
     
     connect ( m_dbusInterface,
-          SIGNAL (hitsModified(const QString&, const QList<quint32>&)),
+          SIGNAL (HitsModified(const QString&, const QList<uint>&)),
           this,
-          SLOT (slotHitsModified(const QString&, const QList<quint32>&)));
+          SLOT (slotHitsModified(const QString&, const QList<uint>&)));
     
     connect ( m_dbusInterface, 
-          SIGNAL (hitsRemoved(const QString&, const QList<quint32>&)),
+          SIGNAL (HitsRemoved(const QString&, const QList<uint>&)),
           this,
-          SLOT (slotHitsRemoved(const QString&, const QList<quint32>&)));
+          SLOT (slotHitsRemoved(const QString&, const QList<uint>&)));
     
     connect ( m_dbusInterface,
-          SIGNAL (searchDone(const QString&)),
+          SIGNAL (SearchDone(const QString&)),
           this,
           SLOT (slotSearchDone(const QString&)));
     
     connect ( m_dbusInterface,
-              SIGNAL (stateChanged(const QStringList &)),
+              SIGNAL (StateChanged(const QStringList &)),
               this,
               SLOT (slotStateChanged(const QStringList&)));
     
     connect ( m_dbusInterface,
-                  SIGNAL (stateChanged(const QStringList &)),
+                  SIGNAL (StateChanged(const QStringList &)),
                   this,
-                  SIGNAL (stateChanged(const QStringList &)));
+                  SIGNAL (StateChanged(const QStringList &)));
   }
 }
       
@@ -88,21 +88,21 @@ SessionPrivate::~SessionPrivate() {
 }
       
 bool SessionPrivate::isReady() {
-  return (m_dbusInterface->isReady() && !m_sessionHanlde.isEmpty());
+  return (m_dbusInterface->isReady() && !m_sessionHandle.isEmpty());
 }
   
 bool SessionPrivate::isClosed() {
-  return m_sessionHanlde.isEmpty();
+  return m_sessionHandle.isEmpty();
 }
 
 void SessionPrivate::close() {
-  m_dbusInterface->closeSession(m_sessionHanlde);
-  m_sessionHanlde = "";
+  m_dbusInterface->closeSession(m_sessionHandle);
+  m_sessionHandle = "";
 }
 
 Search* SessionPrivate::newSearch(Query* query) {
   Search* search = 0;
-  QString searchHandle = m_dbusInterface->newSearch(m_sessionHanlde,
+  QString searchHandle = m_dbusInterface->newSearch(m_sessionHandle,
                                                     query->getXml());
   
   search = new Search (m_dbusInterface, searchHandle);
@@ -115,7 +115,7 @@ Search* SessionPrivate::newSearch(Query* query) {
 Search* SessionPrivate::newSearchFromText(const QString& searchText) {
   Search* search = 0;
   Query* query = Query::fromText(searchText);
-  QString searchHandle = m_dbusInterface->newSearch(m_sessionHanlde, query->getXml());
+  QString searchHandle = m_dbusInterface->newSearch(m_sessionHandle, query->getXml());
 
   if (searchHandle.isEmpty())
     return search;
@@ -130,19 +130,19 @@ Search* SessionPrivate::newSearchFromText(const QString& searchText) {
 }
 
 QDBusVariant SessionPrivate::getProperty(const QString& propName) {
-  return m_dbusInterface->getProperty(m_sessionHanlde, propName).value();
+  return m_dbusInterface->getProperty(m_sessionHandle, propName).value();
 }
 
 void SessionPrivate::setProperty (const QString& propName, const QDBusVariant& value) {
-  m_dbusInterface->setProperty( m_sessionHanlde, propName, value);
+  m_dbusInterface->setProperty( m_sessionHandle, propName, value);
 }
 
 SortOrder SessionPrivate::sortOrder(const QString& propName) {
-  return m_dbusInterface->getPropertySortOrder(m_sessionHanlde, propName);
+  return m_dbusInterface->getPropertySortOrder(m_sessionHandle, propName);
  }
 
  void SessionPrivate::setSortOrder(const QString& propName, const SortOrder& order) {
-   m_dbusInterface->setPropertySortOrder(m_sessionHanlde, propName, order);
+   m_dbusInterface->setPropertySortOrder(m_sessionHandle, propName, order);
  }
 
 bool SessionPrivate::vendorState(VendorState& state, int& done) {
@@ -173,7 +173,7 @@ bool SessionPrivate::vendorState(VendorState& state, int& done) {
 }
 
 void SessionPrivate::slotHitsAdded( const QString &search_handle,
-                                          quint32 count) {
+                                          uint count) {
   qDebug() << "XesamQSessionPrivate::slotHitsAdded, count " << count;
   QMap<QString, Search*>::iterator match = m_searches.find(search_handle);
   if (match != m_searches.end()) {
@@ -185,7 +185,7 @@ void SessionPrivate::slotHitsAdded( const QString &search_handle,
 }
 
 void SessionPrivate::slotHitsModified(const QString &search_handle,
-                                          const QList<quint32> &hit_ids) {
+                                          const QList<uint> &hit_ids) {
   qDebug() << "XesamQSessionPrivate::slotHitsModified";
   QMap<QString, Search*>::iterator match = m_searches.find(search_handle);
   if (match != m_searches.end()) {
@@ -197,7 +197,7 @@ void SessionPrivate::slotHitsModified(const QString &search_handle,
 }
 
 void SessionPrivate::slotHitsRemoved( const QString &search_handle,
-                                          const QList<quint32> &hit_ids) {
+                                          const QList<uint> &hit_ids) {
   qDebug() << "XesamQSessionPrivate::slotHitsRemoved";
   QMap<QString, Search*>::iterator match = m_searches.find(search_handle);
   if (match != m_searches.end()) {

@@ -41,14 +41,14 @@ DBusInterface::~DBusInterface()
 QDBusReply<void> DBusInterface::closeSearch(const QString &search_handle) {
   QList<QVariant> argumentList;
   argumentList << qVariantFromValue(search_handle);
-  return callWithArgumentList(QDBus::Block, QLatin1String("CloseSearch"),
+  return callWithArgumentList(QDBus::NoBlock, QLatin1String("CloseSearch"),
       argumentList);
 }
 
 QDBusReply<void> DBusInterface::closeSession(const QString &session_handle) {
   QList<QVariant> argumentList;
   argumentList << qVariantFromValue(session_handle);
-  return callWithArgumentList(QDBus::Block,
+  return callWithArgumentList(QDBus::NoBlock,
       QLatin1String("CloseSession"), argumentList);
 }
 
@@ -62,7 +62,7 @@ QDBusReply<uint> DBusInterface::getHitCount(const QString &search_handle) {
 }
 
 QDBusReply<QList<QVariantList> > DBusInterface::getHitData(
-                    const QString &search_handle, const QList<quint32> &hit_ids,
+                    const QString &search_handle, const QList<uint> &hit_ids,
                     const QStringList &fields)
 {
   QList<QVariant> argumentList;
@@ -129,7 +129,7 @@ QDBusReply<QDBusVariant> DBusInterface::setProperty(
 QDBusReply<void> DBusInterface::startSearch(const QString &search_handle) {
   QList<QVariant> argumentList;
   argumentList << qVariantFromValue(search_handle);
-  return callWithArgumentList(QDBus::Block, QLatin1String("StartSearch"),
+  return callWithArgumentList(QDBus::NoBlock, QLatin1String("StartSearch"),
       argumentList);
 }
 
