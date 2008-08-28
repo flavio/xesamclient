@@ -18,28 +18,41 @@
  * Boston, MA 02110-1301, USA.
  */
 
-#include <QCoreApplication>
+#include "query.h"
 
-#include <iostream>
-#include <string>
+using namespace Xesam::Client;
 
-#include "xesamtester.h"
-
-using namespace std;
-
-int main(int argc, char *argv[])
+Query::Query()
 {
-  QCoreApplication app (argc, argv);
+}
 
-  XesamTester* tester = new XesamTester();
-  
-  tester->query( "strigi");
+Query::~Query()
+{
+}
 
-  tester->vendorState();
-  
-  app.exec();
+QString& Query::getXml() {
+  return m_query;
+}
 
-  delete tester;
+Query* Query::fromXml (const QString& query) {
+  //TODO: code it!
+  Query* q = new Query();
+  q->m_query = query;
   
-  return 0;
+  return q;
+}
+Query* Query::fromText (const QString& text) {
+  Query* q = new Query();
+  
+  QString xmlQuery;
+  xmlQuery = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>";
+  xmlQuery += "<request xmlns=\"http://freedesktop.org/standards/xesam/1.0/query\">";
+  xmlQuery += "<userQuery>";
+  xmlQuery += text;
+  xmlQuery += "</userQuery>";
+  xmlQuery += "</request>";
+  
+  q->m_query = xmlQuery;
+  
+  return q;
 }

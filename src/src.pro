@@ -15,16 +15,16 @@ QT += dbus
 QT -= gui
 
 # Input
-PRIVATE_HEADERS = XesamQSession_p.h \
-    XesamQDBusInterface.h
-PUBLIC_HEADERS = XesamQGlobals.h \
-    XesamQQuery.h \
-    XesamQSearch.h \
-    XesamQSession.h
+PRIVATE_HEADERS = session_p.h \
+    dbusinterface.h
+PUBLIC_HEADERS = globals.h \
+    query.h \
+    search.h \
+    session.h
 HEADERS += $$PRIVATE_HEADERS \
     $$PUBLIC_HEADERS
-SOURCES += XesamQSession_p.cpp \
-    XesamQDBusInterface.cpp \
-    XesamQQuery.cpp \
-    XesamQSearch.cpp \
-    XesamQSession.cpp
+SOURCES += session_p.cpp \
+    dbusinterface.cpp \
+    query.cpp \
+    search.cpp \
+    session.cpp

@@ -21,7 +21,7 @@
 #ifndef XESAMQDBUSINTERFACE_H_
 #define XESAMQDBUSINTERFACE_H_
 
-#include "XesamQGlobals.h"
+#include "globals.h"
 
 #include <QtCore/QObject>
 #include <QtCore/QByteArray>

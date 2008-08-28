@@ -18,10 +18,10 @@
  * Boston, MA 02110-1301, USA.
  */
 
-#include "XesamTester.h"
+#include "xesamtester.h"
 
-#include "XesamQSession.h"
-#include "XesamQSearch.h"
+#include "session.h"
+#include "search.h"
 
 #include <iostream>
 
