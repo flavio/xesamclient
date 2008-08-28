@@ -3,7 +3,7 @@
 #---------------------------------------------------------------------------
 # Project related configuration options
 #---------------------------------------------------------------------------
-PROJECT_NAME = XesamQLib
+PROJECT_NAME = "Xesam Client Library"
 PROJECT_NUMBER = 0.0.1
 OUTPUT_DIRECTORY = doc
 CREATE_SUBDIRS = NO
@@ -75,9 +75,9 @@ WARN_LOGFILE =
 INPUT = src
 FILE_PATTERNS = *.c *.cc *.cxx *.cpp *.c++ *.d *.java *.ii *.ixx *.ipp *.i++ *.inl *.h *.hh *.hxx *.hpp *.h++ *.idl *.odl *.cs *.php *.php3 *.inc *.m *.mm *.dox *.py *.C *.CC *.C++ *.II *.I++ *.H *.HH *.H++ *.CS *.PHP *.PHP3 *.M *.MM *.PY *.C *.H *.tlh *.diff *.patch *.moc *.xpm *.dox
 RECURSIVE = YES
-EXCLUDE = moc_*
+EXCLUDE = 
 EXCLUDE_SYMLINKS = NO
-EXCLUDE_PATTERNS = 
+EXCLUDE_PATTERNS = moc_* 
 EXAMPLE_PATH = 
 EXAMPLE_PATTERNS = *
 EXAMPLE_RECURSIVE = NO
@@ -120,7 +120,7 @@ BINARY_TOC = NO
 TOC_EXPAND = NO
 DISABLE_INDEX = NO
 ENUM_VALUES_PER_LINE = 4
-GENERATE_TREEVIEW = NO
+GENERATE_TREEVIEW = YES
 TREEVIEW_WIDTH = 250
 #---------------------------------------------------------------------------
 # configuration options related to the LaTeX output
