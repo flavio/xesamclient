@@ -58,8 +58,10 @@ XesamTester::~XesamTester() {
 
 void XesamTester::query(const QString& query) {
   search = session->newSearchFromText(query);
-  if (search == 0)
-    return;
+  if (search == 0) {
+    cout << "Got a null search instance!" << endl;
+    QCoreApplication::exit(1);
+  }    
 
   cout << "starting query" << endl;
 
