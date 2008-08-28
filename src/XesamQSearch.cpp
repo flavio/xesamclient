@@ -84,7 +84,7 @@ class XesamQSearch::Private {
       return m_searchInterface->GetHitCount(m_searchHanlde);
     }
 
-    QList<QVariantList> getHits(quint32 count) {
+    Hit::List getHits(quint32 count) {
       return m_searchInterface->GetHits(m_searchHanlde, count);
     }
 
@@ -133,7 +133,7 @@ int XesamQSearch::getHitCount() {
   return p->getHitCount();
 }
 
-QList<QVariantList> XesamQSearch::getHits(quint32 count) {
+XesamQLib::Hit::List XesamQSearch::getHits(quint32 count) {
   return p->getHits(count);
 }
 

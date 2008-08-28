@@ -24,6 +24,8 @@
 #include <QObject>
 #include <QtDBus/QDBusVariant>
 
+#include "XesamQGlobals.h"
+
 namespace XesamQLib {
 
   class XesamQDBusInterface;
@@ -71,7 +73,7 @@ namespace XesamQLib {
       int  getNumFound();
       int  getNumRead();
       int  getHitCount();
-      QList <QVariantList> getHits(quint32 count);
+      Hit::List getHits(quint32 count);
       QList <QVariantList> getHitData (const QList<quint32>&,
                                         const QStringList&);
 

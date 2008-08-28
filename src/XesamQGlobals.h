@@ -21,6 +21,9 @@
 #ifndef XESAM_QGLOBALS
 #define XESAM_QGLOBALS
 
+#include <QtCore/QList>
+#include <QtCore/QVariant>
+
 namespace XesamQLib {
   //Q_ENUMS(SortOrder)
   #define XESAM_SERVER_DBUS_NAME "org.freedesktop.xesam.searcher"
@@ -30,6 +33,11 @@ namespace XesamQLib {
   enum SortOrder { Ascending, Descending};
 
   enum VendorState { Idle, Update, FullIndex};
+  
+  class Hit : public QVariantList {
+    public:
+    typedef QList<Hit> List;
+  };
 }
 
 #endif /* XESAM_QGLOBALS */

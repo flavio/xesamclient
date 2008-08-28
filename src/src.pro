@@ -20,10 +20,12 @@ PRIVATE_HEADERS = XesamQSession_p.h \
 PUBLIC_HEADERS = XesamQGlobals.h \
     XesamQQuery.h \
     XesamQSearch.h \
-    XesamQSession.h
+    XesamQSession.h \
+    dbusoperators.h
 HEADERS += $$PRIVATE_HEADERS \
     $$PUBLIC_HEADERS
-SOURCES += XesamQSession_p.cpp \
+SOURCES += dbusoperators.cpp \
+    XesamQSession_p.cpp \
     XesamQDBusInterface.cpp \
     XesamQQuery.cpp \
     XesamQSearch.cpp \

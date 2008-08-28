@@ -33,8 +33,11 @@
 #include <QtCore/QVariant>
 #include <QtDBus/QtDBus>
 
+
 Q_DECLARE_METATYPE (QList < quint32>)
-Q_DECLARE_METATYPE (QList < QList < QVariant > >)
+Q_DECLARE_METATYPE (XesamQLib::Hit)
+Q_DECLARE_METATYPE (XesamQLib::Hit::List)
+Q_DECLARE_METATYPE (QList<QVariantList>)
 
 namespace XesamQLib {
 
@@ -84,7 +87,7 @@ namespace XesamQLib {
       QDBusReply<QList<QVariantList> > GetHitData(
                     const QString &search_handle, const QList<quint32> &hit_ids,
                     const QStringList &fields);
-      QDBusReply<QList<QVariantList> > GetHits(
+      QDBusReply<Hit::List > GetHits(
                     const QString &search_handle, uint count);
       QDBusReply<QDBusVariant> GetProperty( const QString &session_handle,
                                             const QString &key);

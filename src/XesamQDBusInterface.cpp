@@ -20,12 +20,18 @@
 
 #include "XesamQDBusInterface.h"
 
+//#include "dbusoperators.h"
+
+#include <QtDBus/QDBusArgument>
+
 using namespace XesamQLib;
 
 XesamQDBusInterface::XesamQDBusInterface(const QString &service, const QString &path, const QDBusConnection &connection, QObject *parent)
     : QDBusAbstractInterface(service, path, staticInterfaceName(), connection, parent)
 {
   m_closed = false;
+  qDBusRegisterMetaType<XesamQLib::Hit>();
+  qDBusRegisterMetaType<XesamQLib::Hit::List>();
 }
 
 XesamQDBusInterface::~XesamQDBusInterface()
@@ -49,8 +55,10 @@ QDBusReply<void> XesamQDBusInterface::CloseSession(const QString &session_handle
 QDBusReply<uint> XesamQDBusInterface::GetHitCount(const QString &search_handle) {
   QList<QVariant> argumentList;
   argumentList << qVariantFromValue(search_handle);
-  return callWithArgumentList(QDBus::Block, QLatin1String("GetHitCount"),
+  QDBusMessage msg = callWithArgumentList(QDBus::Block, QLatin1String("GetHitCount"),
       argumentList);
+  qDebug() << msg;
+  return msg;
 }
 
 QDBusReply<QList<QVariantList> > XesamQDBusInterface::GetHitData(
@@ -64,14 +72,14 @@ QDBusReply<QList<QVariantList> > XesamQDBusInterface::GetHitData(
       argumentList);
 }
 
-QDBusReply<QList<QVariantList> > XesamQDBusInterface::GetHits(
+QDBusReply<Hit::List > XesamQDBusInterface::GetHits(
     const QString &search_handle, uint count) {
   QList<QVariant> argumentList;
   argumentList << qVariantFromValue(search_handle)
       << qVariantFromValue(count);
   return callWithArgumentList(QDBus::Block, QLatin1String("GetHits"),
       argumentList);
-}
+ }
 
 QDBusReply<QDBusVariant> XesamQDBusInterface::GetProperty(
     const QString &session_handle,
