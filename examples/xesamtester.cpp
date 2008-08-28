@@ -66,6 +66,7 @@ void XesamTester::query(const QString& query) {
   if (m_search == 0) {
     cout << "Got a null search instance!" << endl;
     QCoreApplication::exit(1);
+    return;
   }    
 
   cout << "starting query" << endl;
@@ -94,7 +95,7 @@ void XesamTester::slotDone() {
   ListVariantList hits = m_search->getHits(count);
 
   cout << "hits size: " << hits.size() << endl;
-  qDebug() << "hit field = " << m_session->hitFields();
+  qDebug() << "hit field = " << m_search->getHitFields();
 
   if (hits.size() != 0) {
     cout << "Printing hits:" << endl;
