@@ -1,4 +1,4 @@
-/* This file is part of XesamQLib
+/* This file is part of Xesam Client library
  *
  * Copyright (C) 2008 Flavio Castelli <flavio.castelli@gmail.com>
  *
@@ -24,7 +24,7 @@
 #include "XesamQSearch.h"
 #include "XesamQDBusInterface.h"
 
-using namespace XesamQLib;
+using namespace Xesam::Client;
 
 SessionPrivate::SessionPrivate( const QString& bus_name,
                                             const QString& object_path,

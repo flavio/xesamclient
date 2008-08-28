@@ -1,4 +1,4 @@
-/* This file is part of XesamQLib
+/* This file is part of Xesam Client library
  *
  * Copyright (C) 2008 Flavio Castelli <flavio.castelli@gmail.com>
  *
@@ -20,7 +20,7 @@
 
 #include "XesamQQuery.h"
 
-using namespace XesamQLib;
+using namespace Xesam::Client;
 
 Query::Query()
 {

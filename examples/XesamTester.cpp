@@ -1,4 +1,4 @@
-/* This file is part of XesamQLib
+/* This file is part of Xesam Client library
  *
  * Copyright (C) 2008 Flavio Castelli <flavio.castelli@gmail.com>
  *
@@ -29,7 +29,7 @@
 
 #include <QDebug>
 
-using namespace XesamQLib;
+using namespace Xesam::Client;
 using namespace std;
 
 XesamTester::XesamTester() :
@@ -84,7 +84,7 @@ void XesamTester::slotDone() {
 
   int count = search->getHitCount();
   cout << "search->getHitCount() returned " << count << endl;
-  QList <XesamQLib::Hit> hits = search->getHits(count);
+  QList <Hit> hits = search->getHits(count);
 
   cout << "hits size: " << hits.size() << endl;
   if (hits.size() != 0) {

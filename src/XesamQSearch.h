@@ -1,4 +1,4 @@
-/* This file is part of XesamQLib
+/* This file is part of Xesam Client library
  *
  * Copyright (C) 2008 Flavio Castelli <flavio.castelli@gmail.com>
  *
@@ -26,82 +26,84 @@
 
 #include "XesamQGlobals.h"
 
-namespace XesamQLib {
+namespace Xesam {
+  namespace Client {
 
-  class DBusInterface;
-
-  /*!
-   * \brief Client side representation of a search
-   *
-   * Search is a client side representation of a search.
-   * A search is created via a Session object's
-   * Session::newSearchFromText Session::newSearch methods.
-   * All communications with the search engine is completely asynchronous.
-   * When hits are available the "hits-ready" signal will be emitted.
-   * A search will not emit any hits before the start method is invoked.
-   */
-  class Search : public QObject {
-    Q_OBJECT
-
-//    Q_PROPERTY(int maxBatchSize READ maxBatchSize WRITE setMaxBatchSize)
-
-    public:
-      Search(DBusInterface*, const QString&, QObject * parent = 0);
-      ~Search();
-
-      /*! Instruct the server to start a given search.
-       * No hits will be returned before this method has been invoked.
-       * */
-      void start();
-
-      /*!
-       * Close a search. The server is allowed to free all resources related to
-       * the search when this method is invoked.
-       *
-       * A closed search is considered invalid for further use.
-       *
-       * There are two ways in which a search can automatically be closed.
-       * If the last reference to the search is dropped (the object is
-       * finalized), or if the parent session is closed.
-       *
-       * A search will be marked closed as soon as xesam_g_search_close() is
-       * invoked. The "closed" signal will be emitted when the close request has
-       * been acknowledged by the underlying XesamGSearcher.
-       */
-      void close();
-      void continueSearch();
-      int  getNumFound();
-      int  getNumRead();
-      int  getHitCount();
-      Hit::List getHits(quint32 count);
-      QList <QVariantList> getHitData (const QList<quint32>&,
-                                        const QStringList&);
-
-      //xesam_g_search_get_extended_data ()
-
-    public Q_SLOTS:
-      void slotHitsAdded( quint32 count);
-      void slotHitsModified( const QList<quint32> &hit_ids);
-      void slotHitsRemoved( const QList<quint32> &hit_ids);
-      void slotSearchDone();
-
-    private Q_SLOTS:
-      void slotParentSessionClosed();
-
-    Q_SIGNALS:
-      void closed();
-      void done();
-      void extendedDataReady();
-      void hitsAdded();
-      void hitsModified();
-      void hitsRemoved();
-      void ready();
-      void started();
-
-    private:
-      class Private;
-      Private* const p;
-  };
+    class DBusInterface;
+  
+    /*!
+     * \brief Client side representation of a search
+     *
+     * Search is a client side representation of a search.
+     * A search is created via a Session object's
+     * Session::newSearchFromText Session::newSearch methods.
+     * All communications with the search engine is completely asynchronous.
+     * When hits are available the "hits-ready" signal will be emitted.
+     * A search will not emit any hits before the start method is invoked.
+     */
+    class Search : public QObject {
+      Q_OBJECT
+  
+  //    Q_PROPERTY(int maxBatchSize READ maxBatchSize WRITE setMaxBatchSize)
+  
+      public:
+        Search(DBusInterface*, const QString&, QObject * parent = 0);
+        ~Search();
+  
+        /*! Instruct the server to start a given search.
+         * No hits will be returned before this method has been invoked.
+         * */
+        void start();
+  
+        /*!
+         * Close a search. The server is allowed to free all resources related to
+         * the search when this method is invoked.
+         *
+         * A closed search is considered invalid for further use.
+         *
+         * There are two ways in which a search can automatically be closed.
+         * If the last reference to the search is dropped (the object is
+         * finalized), or if the parent session is closed.
+         *
+         * A search will be marked closed as soon as xesam_g_search_close() is
+         * invoked. The "closed" signal will be emitted when the close request has
+         * been acknowledged by the underlying XesamGSearcher.
+         */
+        void close();
+        void continueSearch();
+        int  getNumFound();
+        int  getNumRead();
+        int  getHitCount();
+        Hit::List getHits(quint32 count);
+        QList <QVariantList> getHitData (const QList<quint32>&,
+                                          const QStringList&);
+  
+        //xesam_g_search_get_extended_data ()
+  
+      public Q_SLOTS:
+        void slotHitsAdded( quint32 count);
+        void slotHitsModified( const QList<quint32> &hit_ids);
+        void slotHitsRemoved( const QList<quint32> &hit_ids);
+        void slotSearchDone();
+  
+      private Q_SLOTS:
+        void slotParentSessionClosed();
+  
+      Q_SIGNALS:
+        void closed();
+        void done();
+        void extendedDataReady();
+        void hitsAdded();
+        void hitsModified();
+        void hitsRemoved();
+        void ready();
+        void started();
+  
+      private:
+        class Private;
+        Private* const p;
+    };
+  }
 }
 
 #endif

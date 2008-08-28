@@ -1,4 +1,4 @@
-/* This file is part of XesamQLib
+/* This file is part of Xesam Client library
  *
  * Copyright (C) 2008 Flavio Castelli <flavio.castelli@gmail.com>
  *
@@ -24,9 +24,11 @@
 #include <QObject>
 #include <QString>
 
-namespace XesamQLib {
-  class Session;
-  class Search;
+namespace Xesam {
+  namespace Client {
+    class Session;
+    class Search;
+  }
 }
 
 class XesamTester : public QObject
@@ -41,8 +43,8 @@ class XesamTester : public QObject
   	void vendorState();
   	
   private:
-    XesamQLib::Session* session;
-    XesamQLib::Search* search;
+    Xesam::Client::Session* session;
+    Xesam::Client::Search* search;
     
   private slots:
     void slotClosed();

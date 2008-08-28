@@ -1,4 +1,4 @@
-/* This file is part of XesamQLib
+/* This file is part of Xesam Client library
  *
  * Copyright (C) 2008 Flavio Castelli <flavio.castelli@gmail.com>
  *
@@ -21,7 +21,7 @@
 #include "XesamQSearch.h"
 #include "XesamQDBusInterface.h"
 
-using namespace XesamQLib;
+using namespace Xesam::Client;
 
 class Search::Private {
 
@@ -133,7 +133,7 @@ int Search::getHitCount() {
   return p->getHitCount();
 }
 
-XesamQLib::Hit::List Search::getHits(quint32 count) {
+Hit::List Search::getHits(quint32 count) {
   return p->getHits(count);
 }
 

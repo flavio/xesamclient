@@ -1,4 +1,4 @@
-/* This file is part of XesamQLib
+/* This file is part of Xesam Client library
  *
  * Copyright (C) 2008 Flavio Castelli <flavio.castelli@gmail.com>
  *
@@ -27,51 +27,53 @@
 
 #include <QString>
 
-namespace XesamQLib {
+namespace Xesam {
+  namespace Client {
 
-  /*!
-   * \brief Structured representation of a query
-   *
-   * In Xesam terminology a 'query' is formatted string prepared for the search
-   *  engine. A 'search' is the opaque representation of a query that has been
-   *   accepted and is executing on the search engine.
-   */
-
-  class Query{
-    private:
-      Query();
-
-      QString m_query;
-
-    public:
-      ~Query();
-
-      /*! \return a string containing the xml description of the query,
-       * formulated according to 'Xesam Query Language' specifications
-       *
-      */
-      QString& getXml();
-
-      /*!
-       * Creates a new instance of Query
-       *
-       * \param xesamQlQuery string containing a query formulated with 'Xesam
-       * Query Language'
-       * \return a new Query instance
-       *
-       */
-      static Query* fromXml (const QString& xesamQlQuery);
-
-      /*!
-       * Creates a new instance of Query
-       *
-       * \param xesamUlQuery string containing a query formulated with 'Xesam
-       * User Language'
-       * \return a new Query instance
-       *
-       */
-      static Query* fromText (const QString& xesamUlQuery);
-  };
+    /*!
+     * \brief Structured representation of a query
+     *
+     * In Xesam terminology a 'query' is formatted string prepared for the search
+     *  engine. A 'search' is the opaque representation of a query that has been
+     *   accepted and is executing on the search engine.
+     */
+  
+    class Query{
+      private:
+        Query();
+  
+        QString m_query;
+  
+      public:
+        ~Query();
+  
+        /*! \return a string containing the xml description of the query,
+         * formulated according to 'Xesam Query Language' specifications
+         *
+        */
+        QString& getXml();
+  
+        /*!
+         * Creates a new instance of Query
+         *
+         * \param xesamQlQuery string containing a query formulated with 'Xesam
+         * Query Language'
+         * \return a new Query instance
+         *
+         */
+        static Query* fromXml (const QString& xesamQlQuery);
+  
+        /*!
+         * Creates a new instance of Query
+         *
+         * \param xesamUlQuery string containing a query formulated with 'Xesam
+         * User Language'
+         * \return a new Query instance
+         *
+         */
+        static Query* fromText (const QString& xesamUlQuery);
+    };
+  }
 }
 
 #endif

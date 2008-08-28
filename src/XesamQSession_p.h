@@ -1,4 +1,4 @@
-/* This file is part of XesamQLib
+/* This file is part of Xesam Client library
  *
  * Copyright (C) 2008 Flavio Castelli <flavio.castelli@gmail.com>
  *
@@ -27,64 +27,66 @@
 
 #include "XesamQGlobals.h"
 
-namespace XesamQLib {
+namespace Xesam {
+  namespace Client {
 
-  class DBusInterface;
-  class Search;
-  class Query;
-
-  class SessionPrivate : public QObject {
-    Q_OBJECT
-
-    private:
-      QString m_sessionHanlde;
-      DBusInterface* m_dbusInterface;
-      QMap<QString, Search*> m_searches;
-
-
-    public:
-      SessionPrivate(const QString& bus_name,
-                           const QString& object_path,
-                           QObject * parent = 0);
-
-      ~SessionPrivate();
-
-      bool isReady();
-
-      bool isClosed();
-
-      void close();
-
-      Search* newSearch(Query* query);
-
-      Search* newSearchFromText(const QString& searchText);
-
-      QDBusVariant getProperty(const QString& propName);
-
-      void setProperty (const QString& propName, const QDBusVariant& value);
-
-      SortOrder sortOrder(const QString& propName);
-
-       void setSortOrder(const QString& propName, const SortOrder& order);
-
-      bool vendorState(VendorState& state, int& done);
-
-    Q_SIGNALS:
-      void stateChanged (const QStringList &state_info);
-
-    private Q_SLOTS:
-      void slotHitsAdded(const QString &search_handle, quint32 count);
-
-      void slotHitsModified(const QString &search_handle,
-                        const QList<quint32> &hit_ids);
-
-      void slotHitsRemoved( const QString &search_handle,
-                        const QList<quint32> &hit_ids);
-
-      void slotSearchDone(const QString &search_handle);
-
-      void slotStateChanged(const QStringList &state_info);
-  };
+    class DBusInterface;
+    class Search;
+    class Query;
+  
+    class SessionPrivate : public QObject {
+      Q_OBJECT
+  
+      private:
+        QString m_sessionHanlde;
+        DBusInterface* m_dbusInterface;
+        QMap<QString, Search*> m_searches;
+  
+  
+      public:
+        SessionPrivate(const QString& bus_name,
+                             const QString& object_path,
+                             QObject * parent = 0);
+  
+        ~SessionPrivate();
+  
+        bool isReady();
+  
+        bool isClosed();
+  
+        void close();
+  
+        Search* newSearch(Query* query);
+  
+        Search* newSearchFromText(const QString& searchText);
+  
+        QDBusVariant getProperty(const QString& propName);
+  
+        void setProperty (const QString& propName, const QDBusVariant& value);
+  
+        SortOrder sortOrder(const QString& propName);
+  
+         void setSortOrder(const QString& propName, const SortOrder& order);
+  
+        bool vendorState(VendorState& state, int& done);
+  
+      Q_SIGNALS:
+        void stateChanged (const QStringList &state_info);
+  
+      private Q_SLOTS:
+        void slotHitsAdded(const QString &search_handle, quint32 count);
+  
+        void slotHitsModified(const QString &search_handle,
+                          const QList<quint32> &hit_ids);
+  
+        void slotHitsRemoved( const QString &search_handle,
+                          const QList<quint32> &hit_ids);
+  
+        void slotSearchDone(const QString &search_handle);
+  
+        void slotStateChanged(const QStringList &state_info);
+    };
+  }
 }
 
 #endif /*XESAMQSESSION_P_H_*/

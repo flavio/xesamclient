@@ -1,4 +1,4 @@
-/* This file is part of XesamQLib
+/* This file is part of Xesam Client library
  *
  * Copyright (C) 2008 Flavio Castelli <flavio.castelli@gmail.com>
  *
@@ -24,14 +24,14 @@
 
 #include <QtDBus/QDBusArgument>
 
-using namespace XesamQLib;
+using namespace Xesam::Client;
 
 DBusInterface::DBusInterface(const QString &service, const QString &path, const QDBusConnection &connection, QObject *parent)
     : QDBusAbstractInterface(service, path, staticInterfaceName(), connection, parent)
 {
   m_closed = false;
-  qDBusRegisterMetaType<XesamQLib::Hit>();
-  qDBusRegisterMetaType<XesamQLib::Hit::List>();
+  qDBusRegisterMetaType<Xesam::Client::Hit>();
+  qDBusRegisterMetaType<Xesam::Client::Hit::List>();
 }
 
 DBusInterface::~DBusInterface()

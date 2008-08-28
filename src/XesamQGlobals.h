@@ -1,4 +1,4 @@
-/* This file is part of XesamQLib
+/* This file is part of Xesam Client library
  *
  * Copyright (C) 2008 Flavio Castelli <flavio.castelli@gmail.com>
  *
@@ -24,20 +24,21 @@
 #include <QtCore/QList>
 #include <QtCore/QVariant>
 
-namespace XesamQLib {
-  //Q_ENUMS(SortOrder)
-  #define XESAM_SERVER_DBUS_NAME "org.freedesktop.xesam.searcher"
-  #define XESAM_SERVER_DBUS_INTERFACE "org.freedesktop.xesam.Search"
-  #define XESAM_SERVER_DBUS_OBJECT "/org/freedesktop/xesam/searcher/main"
-
-  enum SortOrder { Ascending, Descending};
-
-  enum VendorState { Idle, Update, FullIndex};
+namespace Xesam {
+  namespace Client {
+    //Q_ENUMS(SortOrder)
+    #define XESAM_SERVER_DBUS_NAME "org.freedesktop.xesam.searcher"
+    #define XESAM_SERVER_DBUS_INTERFACE "org.freedesktop.xesam.Search"
+    #define XESAM_SERVER_DBUS_OBJECT "/org/freedesktop/xesam/searcher/main"
   
-  class Hit : public QVariantList {
-    public:
-    typedef QList<Hit> List;
-  };
+    enum SortOrder { Ascending, Descending};
+  
+    enum VendorState { Idle, Update, FullIndex};
+    
+    class Hit : public QVariantList {
+      public:
+      typedef QList<Hit> List;
+    };
+  }
 }
-
 #endif /* XESAM_QGLOBALS */
