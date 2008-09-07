@@ -1,6 +1,8 @@
 include(examples.pri)
 !include( examples.pri ):message( "error including examples.pri" )
-HEADERS = xesamtester.h
-SOURCES += main.cpp \
+HEADERS = searchtestjob.h \
+    xesamtester.h
+SOURCES += searchtestjob.cpp \
+    main.cpp \
     xesamtester.cpp
 TARGET = example

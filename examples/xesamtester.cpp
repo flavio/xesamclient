@@ -22,117 +22,80 @@
 
 #include "session.h"
 #include "search.h"
+#include "searchtestjob.h"
 
-#include <iostream>
-
-#include <QCoreApplication>
-
-#include <QDebug>
+#include <QtCore/QDebug>
 
 using namespace Xesam::Client;
-using namespace std;
 
-XesamTester::XesamTester() :
-  QObject() {
-  m_session = new Session ();
-  m_search = NULL;
-
-  if (m_session->isReady())
-    cout << "Service available" << endl;
-  else
-    cout << "Service NOT available" << endl;
-}
-
-XesamTester::~XesamTester() {
-  if (m_session != NULL) {
-    m_session->close();
-
-    if (m_session->isClosed())
-      cout << "Session is closed" << endl;
-    else
-      cout << "Session is NOT closed" << endl;
-
-    delete m_session;
-  }
-}
-
-void XesamTester::query(const QString& query) {
+XesamTester::XesamTester(QObject* parent)
+  : QThread(parent)
+{
+  m_session = new Session (this);
+  
   QStringList hitFields;
   hitFields << "xesam:url";
   hitFields << "xesam:size";
   m_session->setHitFields(hitFields);
+
+  m_jobsTodoCounter = 0;
   
-  m_search = m_session->newSearchFromText(query);
-  if (m_search == 0) {
-    cout << "Got a null search instance!" << endl;
-    QCoreApplication::exit(1);
+  if (m_session->isReady())
+    qDebug() << "Service available" << endl;
+  else
+    qDebug() << "Service NOT available" << endl;
+}
+
+XesamTester::~XesamTester() {
+}
+
+void XesamTester::query(const QString& query) {
+  Search* search = m_session->newSearchFromText(query);
+  if (search == 0) {
+    qCritical() << "Got a null search instance for query:" << query << endl;
     return;
   }    
 
-  cout << "starting query" << endl;
+  QMutexLocker locker (& m_jobsTodoMutex);
+  
+  SearchTestJob* testJob = new SearchTestJob (search, this);
+  connect (testJob, SIGNAL (finished()), this, SLOT (slotJobFinished()));
 
-  connect(m_search, SIGNAL (closed()), this, SLOT(slotClosed()));
-  connect(m_search, SIGNAL (done()), this, SLOT(slotDone()));
-  connect(m_search, SIGNAL (extendedDataReady()), this, SLOT(slotExtendedDataReady()));
-  connect(m_search, SIGNAL (hitsAdded()), this, SLOT(slotHitsAdded()));
-  connect(m_search, SIGNAL (hitsModified()), this, SLOT(slotHitsModified()));
-  connect(m_search, SIGNAL (hitsRemoved()), this, SLOT(slotHitsRemoved()));
-  connect(m_search, SIGNAL (ready()), this, SLOT(slotReady()));
-  connect(m_search, SIGNAL (started()), this, SLOT(slotStarted()));
+  m_searches.push_back( testJob);
+  
+  if (this->isRunning())
+    testJob->start();
 
-  m_search->start();
+  m_jobsTodoCounter++;
 }
 
-void XesamTester::slotClosed() {
-  cout << "XesamTester::closed" << endl;
-}
-
-void XesamTester::slotDone() {
-  cout << "XesamTester::slotDone()" << endl;
-
-  int count = m_search->getHitCount();
-  cout << "search->getHitCount() returned " << count << endl;
-  ListVariantList hits = m_search->getHits(count);
-
-  cout << "hits size: " << hits.size() << endl;
-  qDebug() << "hit field = " << m_search->getHitFields();
-
-  if (hits.size() != 0) {
-    cout << "Printing hits:" << endl;
-    foreach (QVariantList hit, hits) {
-      QString msg = "[ ";
-      foreach (QVariant variant, hit) {
-        msg += "|" + variant.toString() + "| ";
-      }
-      msg += "]";
-      qDebug() << msg;
-    }
+void XesamTester::run() {
+  if (m_jobsTodoCounter == 0) {
+    qDebug() << "Nothing to do, exiting";
+    quit();
   }
   
-  QCoreApplication::exit(0);
+  qDebug() << "XesamTester started";
+
+  foreach (SearchTestJob* search, m_searches)
+    search->start();
+  
+  m_mutex.lock();
+  m_waitCondition.wait(&m_mutex);
+  
+  qDebug() << "XesamTester finished";
+  quit();
 }
 
-void XesamTester::slotExtendedDataReady() {
-  cout << "XesamTester::extendedDataReady" << endl;
-}
-
-void XesamTester::slotHitsAdded() {
-  cout << "XesamTester::hitsAdded" << endl;
-}
-
-void XesamTester::slotHitsModified() {
-  cout << "XesamTester::hitsModified" << endl;
-}
-void XesamTester::slotHitsRemoved() {
-  cout << "XesamTester::hitsRemoved" << endl;
-}
-
-void XesamTester::slotReady() {
-  cout << "XesamTester::ready" << endl;
-}
-
-void XesamTester::slotStarted() {
-  cout << "XesamTester::started" << endl;
+void XesamTester::slotJobFinished() {
+  QMutexLocker locker (& m_jobsTodoMutex);
+  m_jobsTodoCounter--;
+  
+  qDebug () << "XesamTester::slotJobFinished() - there're"
+            << m_jobsTodoCounter << "jobs in TODO list";
+  
+  if (m_jobsTodoCounter == 0)
+    m_waitCondition.wakeAll();
 }
 
 void XesamTester::vendorState() {
@@ -142,15 +105,15 @@ void XesamTester::vendorState() {
   if (m_session->vendorState(state, done)) {
     switch (state) {
       case Idle:
-        cout << "Idle" << endl;
+        qDebug() << "Idle" << endl;
         break;
       case Update:
-        cout << "Update [" << done << "]" << endl;
+        qDebug() << "Update [" << done << "]" << endl;
         break;
       case FullIndex:
-        cout << "FullIndex [" << done << "]" << endl;
+        qDebug() << "FullIndex [" << done << "]" << endl;
         break;
     }
   } else
-    cout << "Unable to fetch vendor state" << endl;
+    qDebug() << "Unable to fetch vendor state" << endl;
 }

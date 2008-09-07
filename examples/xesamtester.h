@@ -21,40 +21,44 @@
 #ifndef XESAMTESTER_H_
 #define XESAMTESTER_H_
 
-#include <QObject>
-#include <QString>
+#include <QtCore/QMutex>
+#include <QtCore/QString>
+#include <QtCore/QVector>
+#include <QtCore/QThread>
+#include <QtCore/QWaitCondition>
 
 namespace Xesam {
   namespace Client {
     class Session;
-    class Search;
   }
 }
+class SearchTestJob;
 
-class XesamTester : public QObject
+class XesamTester : public QThread
 {
   Q_OBJECT
   
   public:
-  	XesamTester();
+  	XesamTester(QObject* parent = 0);
   	virtual ~XesamTester();
   	
   	void query (const QString&);
   	void vendorState();
+
+    void run();
   	
-  private:
-    Xesam::Client::Session* m_session;
-    Xesam::Client::Search* m_search;
+  private Q_SLOTS:
+    void slotJobFinished();
     
-  private slots:
-    void slotClosed();
-    void slotDone();
-    void slotExtendedDataReady();
-    void slotHitsAdded();
-    void slotHitsModified();
-    void slotHitsRemoved();
-    void slotReady();
-    void slotStarted();
+  private:
+    QVector <SearchTestJob*> m_searches;
+    
+    Xesam::Client::Session* m_session;
+    QMutex m_mutex;
+    QWaitCondition m_waitCondition;
+    
+    QMutex m_jobsTodoMutex;
+    uint m_jobsTodoCounter;
 };
 
 #endif /*XESAMTESTER_H_*/

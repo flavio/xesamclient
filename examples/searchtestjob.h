@@ -18,29 +18,43 @@
  * Boston, MA 02110-1301, USA.
  */
 
-#include <QCoreApplication>
+#ifndef SEARCHTESTJOB_H_
+#define SEARCHTESTJOB_H_
 
-#include <iostream>
-#include <string>
+#include <QtCore/QThread>
+#include <QtCore/QMutex>
+#include <QtCore/QWaitCondition>
 
-#include "xesamtester.h"
-
-using namespace std;
-
-int main(int argc, char *argv[])
-{
-  QCoreApplication app (argc, argv);
-
-  XesamTester tester;
-  
-  tester.query("nurnberg");
-  tester.query("nuremberg");
-
-  tester.start();
-  
-  tester.vendorState();
-  
-  QObject::connect (&tester, SIGNAL (finished()), &app, SLOT(quit()));
-  
-  return app.exec();
+namespace Xesam {
+  namespace Client {
+    class Search;
+  }
 }
+
+class SearchTestJob : public QThread 
+{
+  Q_OBJECT
+  
+  public:
+	SearchTestJob(Xesam::Client::Search* search, QObject* parent = 0);
+	virtual ~SearchTestJob();
+	
+    void run();
+    
+  private slots:
+    void slotClosed();
+    void slotDone();
+    void slotExtendedDataReady();
+    void slotHitsAdded();
+    void slotHitsModified();
+    void slotHitsRemoved();
+    void slotReady();
+    
+  private:
+    Xesam::Client::Search* m_search;
+    QMutex m_mutex;
+    QWaitCondition m_wait;
+    bool m_done;
+};
+
+#endif /*SEARCHTESTJOB_H_*/
