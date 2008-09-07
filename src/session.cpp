@@ -26,9 +26,9 @@
 
 using namespace Xesam::Client;
 
-Session::Session (const QString& bus_name,
-                              const QString& object_path)
-  : QObject(),
+Session::Session (QObject* parent, const QString& bus_name,
+                  const QString& object_path)
+  : QObject(parent),
     p ( new SessionPrivate (bus_name, object_path))
 {
 }

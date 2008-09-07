@@ -67,8 +67,9 @@ namespace Xesam {
       Q_PROPERTY(int vendorXesam READ vendorXesam)
   
       public:
-        Session (const QString& bus_name = XESAM_SERVER_DBUS_NAME,
-                       const QString& object_path = XESAM_SERVER_DBUS_OBJECT);
+        Session (QObject* parent = 0,
+                 const QString& bus_name = XESAM_SERVER_DBUS_NAME,
+                 const QString& object_path = XESAM_SERVER_DBUS_OBJECT);
         ~Session();
   
         //! \return true if the session is ready, false otherwise
