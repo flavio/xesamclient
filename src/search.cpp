@@ -88,7 +88,7 @@ class Search::Private {
       return m_searchInterface->getHits(m_searchHandle, count);
     }
 
-    QList < QVariantList> getHitData(const QList<uint>& hit_ids,
+    ListVariantList getHitData(const QList<uint>& hit_ids,
         const QStringList& fields) {
       return m_searchInterface->getHitData(m_searchHandle, hit_ids, fields);
     }
@@ -100,7 +100,9 @@ Search::Search( DBusInterface* searchInterface,
                 QObject * parent)
   : QObject(parent),
     p(new Search::Private (searchInterface, searchHandle)),
-    m_hitFields (hitFields)
+    m_hitFields (hitFields),
+    m_hanlde (searchHandle),
+    m_started (false)    
 {
 }
 
@@ -115,7 +117,7 @@ void Search::continueSearch() {
 
 void Search::start() {
   p->startSearch();
-  emit started();
+  m_started = true;
 }
 
 void Search::close() {
@@ -142,11 +144,13 @@ int Search::getHitCount() {
   return p->getHitCount();
 }
 
-ListVariantList Search::getHits(uint count) {
-  return p->getHits(count);
+SearchHits Search::getHits(uint count) {
+  ListVariantList result = p->getHits(count);
+  
+  return SearchHits (this->getHitFields(), result);  
 }
 
-QList < QVariantList> Search::getHitData(const QList<uint> &hit_ids,
+ListVariantList Search::getHitData(const QList<uint> &hit_ids,
                                                const QStringList& fields) {
   return p->getHitData(hit_ids, fields);
 }

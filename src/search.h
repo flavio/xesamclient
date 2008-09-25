@@ -26,6 +26,7 @@
 #include <QtDBus/QDBusVariant>
 
 #include "globals.h"
+#include "searchhits.h"
 
 namespace Xesam {
   namespace Client {
@@ -57,7 +58,9 @@ namespace Xesam {
          * No hits will be returned before this method has been invoked.
          * */
         void start();
-  
+
+        bool started() { return m_started; }
+        
         /*!
          * Close a search. The server is allowed to free all resources related to
          * the search when this method is invoked.
@@ -78,10 +81,12 @@ namespace Xesam {
         int  getNumRead();
         int  getHitCount();
         QStringList getHitFields();
-        ListVariantList getHits(uint count);
-        QList <QVariantList> getHitData (const QList<uint>&,
+        SearchHits getHits(uint count);
+        ListVariantList getHitData (const QList<uint>&,
                                           const QStringList&);
   
+        QString id() { return m_hanlde; }
+        
         //xesam_g_search_get_extended_data ()
   
       public Q_SLOTS:
@@ -101,13 +106,14 @@ namespace Xesam {
         void hitsModified();
         void hitsRemoved();
         void ready();
-        void started();
-  
+ 
       private:
         class Private;
         Private* const p;
         
-        const QStringList m_hitFields; 
+        const QStringList m_hitFields;
+        const QString m_hanlde;
+        bool m_started;
     };
   }
 }
