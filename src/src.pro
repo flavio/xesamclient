@@ -20,6 +20,8 @@ PRIVATE_HEADERS = session_p.h \
 PUBLIC_HEADERS = globals.h \
     query.h \
     search.h \
+    searchhit.h \
+    searchhits.h \
     session.h
 HEADERS += $$PRIVATE_HEADERS \
     $$PUBLIC_HEADERS
@@ -27,4 +29,6 @@ SOURCES += session_p.cpp \
     dbusinterface.cpp \
     query.cpp \
     search.cpp \
+    searchhit.cpp \
+    searchhits.cpp \
     session.cpp
